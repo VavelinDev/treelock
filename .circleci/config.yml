@@ -6,4 +6,5 @@ jobs:
       - image: circleci/openjdk:8-jdk-browsers
     steps:
       - checkout
+      - run: chmod +x ./gradlew
       - run: ./gradlew build
