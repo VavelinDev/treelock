@@ -1,4 +1,4 @@
-package com.mli.dlock.exception
+package com.malirz.dlock.exception
 
 /**
  * Thrown when someone (some process) wants to break a lock owned by someone else (other process).

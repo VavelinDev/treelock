@@ -93,7 +93,7 @@ jacocoTestCoverageVerification {
         rule {
             enabled = false
             element = 'CLASS'
-            includes = ['com.bbh.*']
+            includes = ['com.malirz.*']
 
             limit {
                 counter = 'LINE'

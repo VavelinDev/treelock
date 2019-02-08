@@ -1,7 +1,7 @@
-package com.mli.dlock.repository
+package com.malirz.dlock.repository
 
-import com.mli.dlock.exception.DLockAlreadyExistsException
-import com.mli.dlock.model.DLockRecord
+import com.malirz.dlock.exception.DLockAlreadyExistsException
+import com.malirz.dlock.model.DLockRecord
 import java.sql.Connection
 import java.sql.SQLIntegrityConstraintViolationException
 import java.sql.Timestamp

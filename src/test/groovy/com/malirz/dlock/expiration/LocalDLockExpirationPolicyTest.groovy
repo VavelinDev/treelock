@@ -1,6 +1,6 @@
-package com.mli.dlock.expiration
+package com.malirz.dlock.expiration
 
-import com.mli.dlock.time.DateTimeProvider
+import com.malirz.dlock.time.DateTimeProvider
 import spock.lang.Specification
 
 import java.time.LocalDateTime

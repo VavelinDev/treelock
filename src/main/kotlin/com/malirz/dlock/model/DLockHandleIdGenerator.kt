@@ -1,4 +1,4 @@
-package com.mli.dlock.model
+package com.malirz.dlock.model
 
 /**
  * Generate unique handle ID when a lock is created.
