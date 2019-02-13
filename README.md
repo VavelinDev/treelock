@@ -20,12 +20,12 @@ Here is the sample code for the static schedule:
 ```java
 @Schedule("* */15 * * * *")
 void generateInvoice() {
-    final Optional<DLockHandle> handle = dlock.tryLock("create-invoice", 300);'
+    final Optional<DLockHandle> handle = dlock.tryLock("create-invoice", 300);
     if(handle.isPresent()) {
         try {
             // generate an invoice...
         } finally {
-            dlock.get().unlock()
+            handle.get().unlock();
         }
     }
 }
@@ -33,19 +33,34 @@ void generateInvoice() {
 
 ## Architecture
 
-
-## Set up in your project
+## Set up your project
 
 1) Download DLock library
 
 2) Create DLOCK table in your database
 
-By default DLock uses DLOCK for its table name. But you easily change it (see pt 3)
+By default DLock uses DLOCK for its table name. But you easily change it (see pt 3).
+DDL scripts for different databases can by found inside the jar file or the DLock [sources](src/main/resources/db).
+
+DDL for H2:
+```h2
+CREATE TABLE IF NOT EXISTS @@tableName@@ (
+  LCK_KEY varchar(100) PRIMARY KEY,
+  LCK_HNDL_ID varchar(100) not null,
+  CREATED_TIME DATETIME not null,
+  EXPIRE_SEC int not null
+);
+```
+
+**LCK_KEY** column has to be unique!  
 
 3) Build up your DLock instance 
 
 ```java
-Optional<DLock> dLock = new DBDLockBuilder().dataSource(dataSource).lockTableName("MY_D_LOCK").createDatabase(true).build();
+@Bean
+public DLock createDLock() {
+    return new DBDLockBuilder().dataSource(dataSource).lockTableName("MY_D_LOCK").build();
+}
 ```
 
 Oh and remember. DLock instance is thread-safe. 
