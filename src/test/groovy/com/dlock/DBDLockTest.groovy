@@ -1,9 +1,10 @@
-package com.malirz.dlock
+package com.dlock
 
-import com.malirz.dlock.api.DLock
-import com.malirz.dlock.api.DLockHandle
-import com.malirz.dlock.exception.DLockTriedToBreakNotOwnedLockException
-import com.malirz.dlock.repository.JDBCDLockRepository
+import com.dlock.DBDLockBuilder
+import com.dlock.api.DLock
+import com.dlock.api.DLockHandle
+import com.dlock.exception.DLockTriedToBreakNotOwnedLockException
+import com.dlock.repository.JDBCDLockRepository
 import org.h2.jdbcx.JdbcDataSource
 import spock.lang.Specification
 

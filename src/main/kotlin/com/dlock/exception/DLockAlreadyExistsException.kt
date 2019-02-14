@@ -1,4 +1,4 @@
-package com.malirz.dlock.exception
+package com.dlock.exception
 
 import java.lang.Exception
 import java.sql.SQLIntegrityConstraintViolationException

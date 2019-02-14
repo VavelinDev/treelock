@@ -1,6 +1,6 @@
-package com.malirz.dlock.utils.schema
+package com.dlock.utils.schema
 
-import com.malirz.dlock.DBDLock
+import com.dlock.DBDLock
 import javax.sql.DataSource
 
 /**

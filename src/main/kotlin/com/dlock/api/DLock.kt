@@ -1,6 +1,6 @@
-package com.malirz.dlock.api
+package com.dlock.api
 
-import com.malirz.dlock.exception.DLockTriedToBreakNotOwnedLockException
+import com.dlock.exception.DLockTriedToBreakNotOwnedLockException
 import java.util.*
 
 /**

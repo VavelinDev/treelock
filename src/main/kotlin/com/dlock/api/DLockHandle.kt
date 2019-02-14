@@ -1,4 +1,4 @@
-package com.malirz.dlock.api
+package com.dlock.api
 
 /**
  * The handle is the main contract between the client (owner of the lock) and the lock provider.

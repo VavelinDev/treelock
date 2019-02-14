@@ -1,7 +1,7 @@
-package com.malirz.dlock.repository
+package com.dlock.repository
 
-import com.malirz.dlock.exception.DLockAlreadyExistsException
-import com.malirz.dlock.model.DLockRecord
+import com.dlock.exception.DLockAlreadyExistsException
+import com.dlock.model.DLockRecord
 import java.util.*
 
 /**

@@ -1,12 +1,12 @@
-package com.malirz.dlock
+package com.dlock
 
-import com.malirz.dlock.expiration.DLockExpirationPolicy
-import com.malirz.dlock.expiration.LocalDLockExpirationPolicy
-import com.malirz.dlock.model.DLockHandleIdGenerator
-import com.malirz.dlock.model.DLockHandleUUIDIdGenerator
-import com.malirz.dlock.repository.JDBCDLockRepository
-import com.malirz.dlock.time.DateTimeProvider
-import com.malirz.dlock.utils.schema.InitDatabase
+import com.dlock.expiration.DLockExpirationPolicy
+import com.dlock.expiration.LocalDLockExpirationPolicy
+import com.dlock.model.DLockHandleIdGenerator
+import com.dlock.model.DLockHandleUUIDIdGenerator
+import com.dlock.repository.JDBCDLockRepository
+import com.dlock.time.DateTimeProvider
+import com.dlock.utils.schema.InitDatabase
 import javax.sql.DataSource
 
 /**

@@ -1,13 +1,13 @@
-package com.malirz.dlock
+package com.dlock
 
-import com.malirz.dlock.api.DLock
-import com.malirz.dlock.api.DLockHandle
-import com.malirz.dlock.exception.DLockTriedToBreakNotOwnedLockException
-import com.malirz.dlock.expiration.DLockExpirationPolicy
-import com.malirz.dlock.model.DLockHandleIdGenerator
-import com.malirz.dlock.model.DLockRecord
-import com.malirz.dlock.repository.JDBCDLockRepository
-import com.malirz.dlock.time.DateTimeProvider
+import com.dlock.api.DLock
+import com.dlock.api.DLockHandle
+import com.dlock.exception.DLockTriedToBreakNotOwnedLockException
+import com.dlock.expiration.DLockExpirationPolicy
+import com.dlock.model.DLockHandleIdGenerator
+import com.dlock.model.DLockRecord
+import com.dlock.repository.JDBCDLockRepository
+import com.dlock.time.DateTimeProvider
 import java.util.*
 
 /**

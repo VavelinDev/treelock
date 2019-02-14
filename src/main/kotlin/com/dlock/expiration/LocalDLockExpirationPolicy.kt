@@ -1,6 +1,6 @@
-package com.malirz.dlock.expiration
+package com.dlock.expiration
 
-import com.malirz.dlock.time.DateTimeProvider
+import com.dlock.time.DateTimeProvider
 import java.time.LocalDateTime
 
 /**

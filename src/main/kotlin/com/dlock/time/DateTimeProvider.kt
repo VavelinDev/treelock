@@ -1,4 +1,4 @@
-package com.malirz.dlock.time
+package com.dlock.time
 
 import java.time.LocalDateTime
 
