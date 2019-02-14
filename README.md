@@ -43,7 +43,7 @@ By default DLock uses DLOCK for its table name. But you easily change it (see pt
 DDL scripts for different databases can by found inside the jar file or the DLock [sources](src/main/resources/db).
 
 DDL for H2:
-```h2
+```sql
 CREATE TABLE IF NOT EXISTS @@tableName@@ (
   LCK_KEY varchar(100) PRIMARY KEY,
   LCK_HNDL_ID varchar(100) not null,
