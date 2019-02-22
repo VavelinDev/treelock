@@ -22,6 +22,7 @@ plugins {
     id 'maven'
     id 'maven-publish'
     id 'jacoco'
+    id 'me.champeau.gradle.jmh' version '0.4.8'
 }
 
 apply plugin: "kotlin"
@@ -40,6 +41,9 @@ dependencies {
     testRuntime group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.11.1'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    jmh group: 'com.h2database', name: 'h2', version: '1.4.197'
+    jmh group: 'com.zaxxer', name: 'HikariCP', version: '3.3.1'
 }
 
 // In this section you declare where to find the dependencies of your project
@@ -103,3 +107,20 @@ jacocoTestCoverageVerification {
         }
     }
 }
+
+jmh {
+    fork = 2
+    iterations = 2
+    jmhVersion = '1.21'
+    profilers = ['gc']
+    threads = 5
+    warmup = '1s'
+    warmupBatchSize = 1
+    warmupIterations = 1
+    jvmArgs = ['-Xms512m', '-Xmx512m', '-Djmh.separateClasspathJAR=true']
+}
+
+jmhJar {
+    exclude 'log4j2.xml'
+}
+
