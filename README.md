@@ -1,3 +1,5 @@
+<img src="https://github.com/pmalirz/dlock/doc/images/heart.png">
+
 # DLock is a distributed lock backed by the database you use.
 
 **D** stands for a **Distributed** and a **Database**
