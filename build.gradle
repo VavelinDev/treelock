@@ -117,7 +117,7 @@ jmh {
     warmup = '1s'
     warmupBatchSize = 1
     warmupIterations = 1
-    jvmArgs = ['-Xms512m', '-Xmx512m', '-Djmh.separateClasspathJAR=true']
+    jvmArgs = ['-Xms512m', '-Xmx512m', '-Djmh.separateClasspathJAR=true', '-Dlog4j.configurationFile=conf/log4j2.xml']
 }
 
 jmhJar {
