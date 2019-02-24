@@ -1,4 +1,4 @@
-<img src="https://github.com/pmalirz/dlock/doc/images/heart.png">
+<img src="https://github.com/pmalirz/dlock/blob/master/doc/images/heart.png">
 
 # DLock is a distributed lock backed by the database you use.
 
