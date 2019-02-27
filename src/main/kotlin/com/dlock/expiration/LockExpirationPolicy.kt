@@ -7,7 +7,7 @@ import java.time.LocalDateTime
  *
  * @author Przemyslaw Malirz
  */
-interface DLockExpirationPolicy {
+interface LockExpirationPolicy {
 
     /**
      * Returns true when the lock should expire.

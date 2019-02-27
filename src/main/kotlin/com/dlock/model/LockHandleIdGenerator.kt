@@ -5,6 +5,6 @@ package com.dlock.model
  *
  * @author Przemyslaw Malirz
  */
-interface DLockHandleIdGenerator {
+interface LockHandleIdGenerator {
     fun generate(): String
 }

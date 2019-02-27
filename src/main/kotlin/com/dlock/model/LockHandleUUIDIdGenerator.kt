@@ -7,7 +7,7 @@ import java.util.*
  *
  * @author Przemyslaw Malirz
  */
-class DLockHandleUUIDIdGenerator : DLockHandleIdGenerator {
+class LockHandleUUIDIdGenerator : LockHandleIdGenerator {
 
     override fun generate(): String {
         return UUID.randomUUID().toString()

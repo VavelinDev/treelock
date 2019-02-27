@@ -1,17 +1,17 @@
 package com.dlock
 
-import com.dlock.api.DLock
+import com.dlock.api.KeyLock
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.openjdk.jmh.annotations.*
 import java.util.concurrent.TimeUnit
 
-open class DLockCollisionBenchmark {
+open class KeyLockCollisionBenchmark {
 
     @State(Scope.Benchmark)
     open class ExecutionPlan {
 
-        lateinit var dLock: DLock
+        lateinit var keyLock: KeyLock
 
         var LOCK_KEY = "AAA"
 
@@ -26,9 +26,9 @@ open class DLockCollisionBenchmark {
             config.addDataSourceProperty("maximumPoolSize", "1000")
             val dataSource = HikariDataSource(config)
 
-            dLock = DBDLockBuilder().dataSource(dataSource).createDatabase(true).build()
+            keyLock = DBKeyLockBuilder().dataSource(dataSource).createDatabase(true).build()
 
-            dLock.tryLock(LOCK_KEY, 100000)
+            keyLock.tryLock(LOCK_KEY, 100000)
         }
 
     }
@@ -38,7 +38,7 @@ open class DLockCollisionBenchmark {
     @BenchmarkMode(Mode.Throughput)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     fun tryLockAlwaysCollision(executionPlan: ExecutionPlan) {
-        executionPlan.dLock.tryLock(executionPlan.LOCK_KEY, 1)
+        executionPlan.keyLock.tryLock(executionPlan.LOCK_KEY, 1)
     }
 
 }

@@ -8,4 +8,4 @@ import java.sql.SQLIntegrityConstraintViolationException
  *
  * @author Przemyslaw Malirz
  */
-class DLockAlreadyExistsException(msg: String, ex: SQLIntegrityConstraintViolationException) : Exception(msg, ex)
+class LockAlreadyExistsException(msg: String, ex: SQLIntegrityConstraintViolationException) : Exception(msg, ex)

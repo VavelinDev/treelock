@@ -8,7 +8,7 @@ import java.time.LocalDateTime
  *
  * @author Przemyslaw Malirz
  */
-class LocalDLockExpirationPolicy(private val dataTimeProvider: DateTimeProvider) : DLockExpirationPolicy {
+class LocalLockExpirationPolicy(private val dataTimeProvider: DateTimeProvider) : LockExpirationPolicy {
 
     override fun expired(createdTime: LocalDateTime, expirationSeconds: Long): Boolean {
         val now = dataTimeProvider.now()

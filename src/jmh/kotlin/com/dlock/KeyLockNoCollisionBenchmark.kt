@@ -1,6 +1,6 @@
 package com.dlock
 
-import com.dlock.api.DLock
+import com.dlock.api.KeyLock
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.h2.tools.Server
@@ -8,12 +8,12 @@ import org.openjdk.jmh.annotations.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-open class DLockNoCollisionBenchmark {
+open class KeyLockNoCollisionBenchmark {
 
     @State(Scope.Benchmark)
     open class ExecutionPlan {
 
-        lateinit var dLock: DLock
+        lateinit var keyLock: KeyLock
         lateinit var webServer: Server
 
         @Setup(Level.Trial)
@@ -43,7 +43,7 @@ open class DLockNoCollisionBenchmark {
 
             val dataSource = HikariDataSource(config)
 
-            dLock = DBDLockBuilder().dataSource(dataSource).createDatabase(true).build()
+            keyLock = DBKeyLockBuilder().dataSource(dataSource).createDatabase(true).build()
         }
 
     }
@@ -52,15 +52,15 @@ open class DLockNoCollisionBenchmark {
     @BenchmarkMode(Mode.Throughput)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     fun tryAndReleaseLockNoCollision(executionPlan: ExecutionPlan) {
-        val lockHandle = executionPlan.dLock.tryLock(UUID.randomUUID().toString(), 1)
-        executionPlan.dLock.release(lockHandle.get())
+        val lockHandle = executionPlan.keyLock.tryLock(UUID.randomUUID().toString(), 1)
+        executionPlan.keyLock.unlock(lockHandle.get())
     }
 
     @Benchmark
     @BenchmarkMode(Mode.Throughput)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     fun tryLockNoCollision(executionPlan: ExecutionPlan) {
-        executionPlan.dLock.tryLock(UUID.randomUUID().toString(), 1)
+        executionPlan.keyLock.tryLock(UUID.randomUUID().toString(), 1)
     }
 
 }

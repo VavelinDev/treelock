@@ -1,25 +1,25 @@
 package com.dlock.expiration
 
-import com.dlock.expiration.LocalDLockExpirationPolicy
+
 import com.dlock.time.DateTimeProvider
 import spock.lang.Specification
 
 import java.time.LocalDateTime
 
 /**
- * Tests of LocalDLockExpirationPolicy.
+ * Tests of LocalLockExpirationPolicy.
  *
  * @author Przemyslaw Malirz
  */
-class LocalDLockExpirationPolicyTest extends Specification {
+class LocalKeyLockExpirationPolicyTest extends Specification {
 
-    private LocalDLockExpirationPolicy expirationPolicy
+    private LocalLockExpirationPolicy expirationPolicy
 
     def setup() {
         def dateTimeProvider = GroovyMock(DateTimeProvider.class) {
             now() >> LocalDateTime.parse("2019-01-01T12:00:00")
         }
-        expirationPolicy = new LocalDLockExpirationPolicy(dateTimeProvider)
+        expirationPolicy = new LocalLockExpirationPolicy(dateTimeProvider)
     }
 
     def "Test expiration"(String createTimeString, Long expirationSeconds, boolean expired) {
