@@ -16,7 +16,6 @@ buildscript {
 }
 
 plugins {
-    // Apply the java-library plugin to add support for Java Library
     id 'java-library'
     id 'org.jetbrains.kotlin.jvm' version '1.3.21'
     id 'maven'
@@ -29,13 +28,12 @@ apply plugin: "kotlin"
 apply plugin: "groovy"
 
 dependencies {
-    // Use JUnit test framework
     testCompile "org.codehaus.groovy:groovy-all:2.5.6"
     testCompile group: 'org.spockframework', name: 'spock-core', version: '1.2-groovy-2.5'
     testCompile group: 'com.h2database', name: 'h2', version: '1.4.197'
-    testCompile "org.hamcrest:hamcrest-core:1.3" // only necessary if Hamcrest matchers are used
-    testRuntime "net.bytebuddy:byte-buddy:1.8.21"          // allows mocking of classes (in addition to interfaces)
-    testRuntime "org.objenesis:objenesis:2.6"    // allows mocking of classes without default constructor (together with CGLIB)
+    testCompile "org.hamcrest:hamcrest-core:1.3"
+    testRuntime "net.bytebuddy:byte-buddy:1.8.21"
+    testRuntime "org.objenesis:objenesis:2.6"
     testRuntime group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.1'
     testRuntime group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.1'
     testRuntime group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.11.1'
@@ -46,10 +44,7 @@ dependencies {
     jmh group: 'com.zaxxer', name: 'HikariCP', version: '3.3.1'
 }
 
-// In this section you declare where to find the dependencies of your project
 repositories {
-    // Use jcenter for resolving your dependencies.
-    // You can declare any Maven/Ivy/file repository here.
     jcenter()
 }
 compileKotlin {
@@ -66,7 +61,7 @@ compileTestKotlin {
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId = 'com.bbh.dlock'
+            groupId = 'com.dlock'
             version = '1.0'
             from components.java
         }
@@ -97,7 +92,7 @@ jacocoTestCoverageVerification {
         rule {
             enabled = false
             element = 'CLASS'
-            includes = ['com.malirz.*']
+            includes = ['com.dlock.*']
 
             limit {
                 counter = 'LINE'
