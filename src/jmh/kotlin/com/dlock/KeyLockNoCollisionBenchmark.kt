@@ -14,33 +14,28 @@ open class KeyLockNoCollisionBenchmark {
     open class ExecutionPlan {
 
         lateinit var keyLock: KeyLock
-        lateinit var webServer: Server
+        lateinit var h2Server: Server
 
         @Setup(Level.Trial)
         fun start() {
-            webServer = Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092")
-            webServer.start()
+            h2Server = Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9099")
+            h2Server.start()
         }
 
         @TearDown(Level.Trial)
         fun shutdown() {
-            webServer.stop()
+            h2Server.stop()
         }
 
         @Setup(Level.Iteration)
         fun setUp() {
             val config = HikariConfig()
 
-            config.jdbcUrl = "jdbc:h2:tcp://localhost:9092/~/test"
+            config.jdbcUrl = "jdbc:h2:tcp://localhost:9099/~/perftest"
             config.username = "sa"
             config.password = ""
             config.isAutoCommit = true
-
-            config.addDataSourceProperty("cachePrepStmts", "true")
-            config.addDataSourceProperty("prepStmtCacheSize", "250")
-            config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048")
             config.addDataSourceProperty("maximumPoolSize", "1000")
-
             val dataSource = HikariDataSource(config)
 
             keyLock = DBKeyLockBuilder().dataSource(dataSource).createDatabase(true).build()
