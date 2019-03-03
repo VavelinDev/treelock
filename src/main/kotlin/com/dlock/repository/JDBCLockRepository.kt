@@ -1,9 +1,7 @@
 package com.dlock.repository
 
-import com.dlock.exception.LockAlreadyExistsException
 import com.dlock.model.LockRecord
 import java.sql.Connection
-import java.sql.SQLIntegrityConstraintViolationException
 import java.sql.Timestamp
 import java.util.*
 import javax.sql.DataSource
@@ -17,13 +15,13 @@ class JDBCLockRepository(
         private val dataSource: DataSource,
         private val tableName: String) : LockRepository {
 
-    override fun createLock(lockRecord: LockRecord) {
+    override fun createLock(lockRecord: LockRecord): Boolean {
         dataSource.connection.use {
-            try {
-                executeInsert(it, lockRecord)
-            } catch (ex: SQLIntegrityConstraintViolationException) {
-                throw LockAlreadyExistsException("Lock cannot be created as it already exists: $lockRecord", ex)
+            val recordCreated = executeInsert(it, lockRecord)
+            if (recordCreated) {
+                commit(it)
             }
+            return recordCreated
         }
     }
 
@@ -42,6 +40,7 @@ class JDBCLockRepository(
     override fun removeLock(lockHandleId: String) {
         dataSource.connection.use {
             executeRemove(it, lockHandleId)
+            commit(it)
         }
     }
 
@@ -92,16 +91,19 @@ class JDBCLockRepository(
     }
 
     /** Insert SQL PreparedStatement. */
-    private fun executeInsert(connection: Connection, lockRecord: LockRecord) {
-        val sql = "INSERT INTO $tableName (LCK_KEY, LCK_HNDL_ID, CREATED_TIME, EXPIRE_SEC) VALUES (?, ?, ?, ?)"
+    private fun executeInsert(connection: Connection, lockRecord: LockRecord): Boolean {
+        val sql = "INSERT INTO $tableName (LCK_KEY, LCK_HNDL_ID, CREATED_TIME, EXPIRE_SEC) " +
+                "SELECT ?, ?, ?, ? FROM DUAL " +
+                "WHERE NOT EXISTS (SELECT 1 FROM $tableName WHERE LCK_KEY = ?)"
 
         with(connection.prepareStatement(sql)) {
             setString(1, lockRecord.lockKey)
             setString(2, lockRecord.lockHandleId)
             setTimestamp(3, Timestamp.valueOf(lockRecord.createdTime))
             setLong(4, lockRecord.expirationSeconds)
+            setString(5, lockRecord.lockKey)
 
-            executeUpdate()
+            return executeUpdate() == 1
         }
 
     }
@@ -115,5 +117,8 @@ class JDBCLockRepository(
         deleteStatement.executeUpdate()
     }
 
+    private fun commit(connection: Connection) {
+        if (connection.autoCommit) connection.commit()
+    }
 
 }

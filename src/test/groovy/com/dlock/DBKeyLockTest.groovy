@@ -23,8 +23,9 @@ class DBKeyLockTest extends Specification {
         // H2 datasource
         def dataSource = new JdbcDataSource()
         dataSource.setURL("jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1")
+        //dataSource.setURL("jdbc:h2:tcp://localhost/~/test;TRACE_LEVEL_FILE=2")
         dataSource.setUser("sa")
-        dataSource.setPassword("sa")
+        dataSource.setPassword("")
 
         // it help us to check if the lock exists in the database once created
         repository = new JDBCLockRepository(dataSource, DBKeyLockBuilder.DEFAULT_LOCK_TABLE_NAME)
@@ -33,6 +34,8 @@ class DBKeyLockTest extends Specification {
                 .dataSource(dataSource)
                 .createDatabase(true)
                 .build()
+
+        dataSource.connection.prepareStatement("DELETE FROM DLCK").executeUpdate()
     }
 
     def "Try Lock"() {
@@ -69,8 +72,8 @@ class DBKeyLockTest extends Specification {
 
     def "Collision Lock"() {
         when:
-        def lockHandleA = keyLock.tryLock("c", 300)
-        def lockHandleB = keyLock.tryLock("c", 300)
+        def lockHandleA = keyLock.tryLock("c", 10)
+        def lockHandleB = keyLock.tryLock("c", 10)
 
         then:
         noExceptionThrown()

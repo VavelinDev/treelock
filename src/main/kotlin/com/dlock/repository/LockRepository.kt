@@ -1,6 +1,5 @@
 package com.dlock.repository
 
-import com.dlock.exception.LockAlreadyExistsException
 import com.dlock.model.LockRecord
 import java.util.*
 
@@ -14,10 +13,9 @@ interface LockRepository {
     /**
      * Inserts a brand new lock into the database.
      *
-     * @throws LockAlreadyExistsException when a lock with the same lockKey already exists
+     * @return {@code true} when record created
      */
-    @Throws(LockAlreadyExistsException::class)
-    fun createLock(lockRecord: LockRecord)
+    fun createLock(lockRecord: LockRecord): Boolean
 
     /** Find a given lock by its handle id.
      *

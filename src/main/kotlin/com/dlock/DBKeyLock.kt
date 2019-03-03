@@ -26,8 +26,7 @@ class DBKeyLock(
 
         return if (expired(currentLockRecord)) {
             breakLockIfExists(currentLockRecord)
-            val createNewLock = createNewLock(lockKey, expirationSeconds)
-            Optional.of(createNewLock)
+            return createNewLock(lockKey, expirationSeconds)
         } else {
             Optional.empty()
         }
@@ -39,11 +38,14 @@ class DBKeyLock(
         breakLockIfExists(lockRecord)
     }
 
-    private fun createNewLock(lockKey: String, expirationSeconds: Long): LockHandle {
+    private fun createNewLock(lockKey: String, expirationSeconds: Long): Optional<LockHandle> {
         val newLockRecord = createLockRecord(lockKey, expirationSeconds)
-        lockRepository.createLock(newLockRecord)
-
-        return LockHandle(newLockRecord.lockHandleId)
+        val lockCreated = lockRepository.createLock(newLockRecord)
+        return if (lockCreated) {
+            Optional.of(LockHandle(newLockRecord.lockHandleId))
+        } else {
+            Optional.empty()
+        }
     }
 
     private fun createLockRecord(lockKey: String, expirationSeconds: Long): LockRecord {

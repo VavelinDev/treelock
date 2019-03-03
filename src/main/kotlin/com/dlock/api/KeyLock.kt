@@ -1,6 +1,5 @@
 package com.dlock.api
 
-import com.dlock.exception.LockAlreadyExistsException
 import java.util.*
 
 /**
@@ -15,7 +14,6 @@ interface KeyLock {
      * Gets a lock for a given amount of time, if available (providing the handle of that lock).
      * If the lock is taken by someone else {@link Optional#empty} is returned.
      */
-    @Throws(LockAlreadyExistsException::class)
     fun tryLock(lockKey: String, expirationSeconds: Long): Optional<LockHandle>
 
     /**
