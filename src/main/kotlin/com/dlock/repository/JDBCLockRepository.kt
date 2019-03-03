@@ -118,7 +118,7 @@ class JDBCLockRepository(
     }
 
     private fun commit(connection: Connection) {
-        if (connection.autoCommit) connection.commit()
+        if (!connection.autoCommit) connection.commit()
     }
 
 }
