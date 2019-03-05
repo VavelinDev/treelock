@@ -12,6 +12,11 @@ import java.util.*
 /**
  * The simplest implementation of the {@link KeyLock} interface based on the repository.
  *
+ * @param lockRepository use for persisting lock in a storage
+ * @param lockHandleIdGenerator generates globally unique handle identifier
+ * @param lockExpirationPolicy verifies whether the given lock expired
+ * @param dateTimeProvider used to set the creation time of the given lock
+ *
  * @author Przemyslaw Malirz
  */
 class SimpleKeyLock(
