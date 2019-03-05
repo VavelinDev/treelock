@@ -8,4 +8,3 @@ jobs:
       - checkout
       - run: chmod +x ./gradlew
       - run: ./gradlew build
-      - run: ./gradlew jmh
