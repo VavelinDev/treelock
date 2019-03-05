@@ -6,16 +6,17 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.h2.tools.Server
 import org.openjdk.jmh.annotations.*
-import java.util.*
 import java.util.concurrent.TimeUnit
 
-open class KeyLockNoCollisionBenchmark {
+open class KeyLockCollisionH2Benchmark {
 
     @State(Scope.Benchmark)
     open class ExecutionPlan {
 
         lateinit var keyLock: KeyLock
         lateinit var h2Server: Server
+
+        var LOCK_KEY = "AAA"
 
         @Setup(Level.Trial)
         fun start() {
@@ -40,23 +41,18 @@ open class KeyLockNoCollisionBenchmark {
             val dataSource = HikariDataSource(config)
 
             keyLock = JDBCKeyLockBuilder().dataSource(dataSource).createDatabase(true).build()
+
+            keyLock.tryLock(LOCK_KEY, 100000)
         }
 
     }
 
-    @Benchmark
-    @BenchmarkMode(Mode.Throughput)
-    @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    fun tryAndReleaseLockNoCollision(executionPlan: ExecutionPlan) {
-        val lockHandle = executionPlan.keyLock.tryLock(UUID.randomUUID().toString(), 1)
-        executionPlan.keyLock.unlock(lockHandle.get())
-    }
 
     @Benchmark
     @BenchmarkMode(Mode.Throughput)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    fun tryLockNoCollision(executionPlan: ExecutionPlan) {
-        executionPlan.keyLock.tryLock(UUID.randomUUID().toString(), 1)
+    fun tryLockAlwaysCollision(executionPlan: ExecutionPlan) {
+        executionPlan.keyLock.tryLock(executionPlan.LOCK_KEY, 1)
     }
 
 }
