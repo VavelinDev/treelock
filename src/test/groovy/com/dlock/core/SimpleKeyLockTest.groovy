@@ -16,7 +16,7 @@ import spock.lang.Specification
  */
 class SimpleKeyLockTest extends Specification {
 
-    private KeyLock keyLock
+    private SimpleKeyLock keyLock
     private JDBCLockRepository repository
 
     def setup() {
