@@ -39,8 +39,10 @@ class JDBCLockRepository(
 
     override fun removeLock(lockHandleId: String) {
         dataSource.connection.use {
-            executeRemove(it, lockHandleId)
-            commit(it)
+            val recordRemoved = executeRemove(it, lockHandleId)
+            if (recordRemoved) {
+                commit(it)
+            }
         }
     }
 
@@ -109,12 +111,12 @@ class JDBCLockRepository(
     }
 
     /** Delete SQL PreparedStatement. */
-    private fun executeRemove(connection: Connection, lockHandleId: String) {
+    private fun executeRemove(connection: Connection, lockHandleId: String): Boolean {
         val sql = "DELETE FROM $tableName WHERE LCK_HNDL_ID = ?"
 
         val deleteStatement = connection.prepareStatement(sql)
         deleteStatement.setString(1, lockHandleId)
-        deleteStatement.executeUpdate()
+        return deleteStatement.executeUpdate() == 1
     }
 
     private fun commit(connection: Connection) {
