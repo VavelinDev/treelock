@@ -17,7 +17,7 @@ interface KeyLock {
     fun tryLock(lockKey: String, expirationSeconds: Long): Optional<LockHandle>
 
     /**
-     * Releases a given lock. In case it is already taken by someone else an exception is thrown.
+     * Releases a given lock. If lock with a given handle does not exist nothings happen.
      */
     fun unlock(lockHandle: LockHandle)
 
