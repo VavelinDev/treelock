@@ -1,10 +1,9 @@
 package com.dlock.core
 
-
 import com.dlock.api.KeyLock
 import com.dlock.api.LockHandle
-import com.dlock.infrastructure.repository.JDBCLockRepository
-import com.dlock.infrastructure.builder.JDBCKeyLockBuilder
+import com.dlock.infrastructure.jdbc.builder.JDBCKeyLockBuilder
+import com.dlock.infrastructure.jdbc.repository.JDBCLockRepository
 import org.h2.jdbcx.JdbcDataSource
 import spock.lang.Specification
 
