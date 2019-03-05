@@ -8,13 +8,13 @@ import org.h2.jdbcx.JdbcDataSource
 import spock.lang.Specification
 
 /**
- * Bunch of quick tests against DBKeyLock. They cover most of the cases we are interested in.
+ * Bunch of quick tests against JDBCKeyLock. They cover most of the cases we are interested in.
  * There is also dlock-benchmark (based on jmh) project which completes that integration test with more
  * concurrent usage scenarios.
  *
  * @author Przemyslaw Malirz
  */
-class DBKeyLockTest extends Specification {
+class JDBCKeyLockTest extends Specification {
 
     private KeyLock keyLock
     private JDBCLockRepository repository
@@ -28,9 +28,9 @@ class DBKeyLockTest extends Specification {
         dataSource.setPassword("")
 
         // it help us to check if the lock exists in the database once created
-        repository = new JDBCLockRepository(dataSource, DBKeyLockBuilder.DEFAULT_LOCK_TABLE_NAME)
+        repository = new JDBCLockRepository(dataSource, JDBCKeyLockBuilder.DEFAULT_LOCK_TABLE_NAME)
 
-        keyLock = new DBKeyLockBuilder()
+        keyLock = new JDBCKeyLockBuilder()
                 .dataSource(dataSource)
                 .createDatabase(true)
                 .build()

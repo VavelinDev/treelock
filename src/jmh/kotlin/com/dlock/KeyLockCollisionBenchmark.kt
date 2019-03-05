@@ -39,7 +39,7 @@ open class KeyLockCollisionBenchmark {
             config.addDataSourceProperty("maximumPoolSize", "1000")
             val dataSource = HikariDataSource(config)
 
-            keyLock = DBKeyLockBuilder().dataSource(dataSource).createDatabase(true).build()
+            keyLock = JDBCKeyLockBuilder().dataSource(dataSource).createDatabase(true).build()
 
             keyLock.tryLock(LOCK_KEY, 100000)
         }

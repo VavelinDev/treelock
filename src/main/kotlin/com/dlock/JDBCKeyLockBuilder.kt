@@ -10,11 +10,11 @@ import com.dlock.utils.schema.InitDatabase
 import javax.sql.DataSource
 
 /**
- * Builder for DBKeyLock.
+ * Builder for JDBCKeyLock.
  *
  * @author Przemyslaw Malirz
  */
-class DBKeyLockBuilder {
+class JDBCKeyLockBuilder {
 
     companion object {
         const val DEFAULT_LOCK_TABLE_NAME = "DLCK"
@@ -30,40 +30,40 @@ class DBKeyLockBuilder {
     /**
      * That is the only required property.
      */
-    fun dataSource(dataSource: DataSource): DBKeyLockBuilder {
+    fun dataSource(dataSource: DataSource): JDBCKeyLockBuilder {
         this.dataSource = dataSource
         return this
     }
 
-    fun lockTableName(lockTableName: String): DBKeyLockBuilder {
+    fun lockTableName(lockTableName: String): JDBCKeyLockBuilder {
         this.lockTableName = lockTableName
         return this
     }
 
-    fun lockHandleIdGenerator(lockHandleIdGenerator: LockHandleIdGenerator): DBKeyLockBuilder {
+    fun lockHandleIdGenerator(lockHandleIdGenerator: LockHandleIdGenerator): JDBCKeyLockBuilder {
         this.lockHandleIdGenerator = lockHandleIdGenerator
         return this
     }
 
-    fun lockExpirationPolicy(lockExpirationPolicy: LockExpirationPolicy): DBKeyLockBuilder {
+    fun lockExpirationPolicy(lockExpirationPolicy: LockExpirationPolicy): JDBCKeyLockBuilder {
         this.lockExpirationPolicy = lockExpirationPolicy
         return this
     }
 
-    fun lockDateTimeProvider(lockDateTimeProvider: DateTimeProvider): DBKeyLockBuilder {
+    fun lockDateTimeProvider(lockDateTimeProvider: DateTimeProvider): JDBCKeyLockBuilder {
         this.lockDateTimeProvider = lockDateTimeProvider
         return this
     }
 
-    fun createDatabase(createDatabase: Boolean): DBKeyLockBuilder {
+    fun createDatabase(createDatabase: Boolean): JDBCKeyLockBuilder {
         this.createDatabase = createDatabase
         return this
     }
 
-    fun build(): DBKeyLock {
+    fun build(): JDBCKeyLock {
         val lockRepository = JDBCLockRepository(dataSource, lockTableName)
         val lockHandleUUIDGenerator = LockHandleUUIDIdGenerator()
-        val dbdLock = DBKeyLock(lockRepository, lockHandleUUIDGenerator, lockExpirationPolicy, lockDateTimeProvider)
+        val dbdLock = JDBCKeyLock(lockRepository, lockHandleUUIDGenerator, lockExpirationPolicy, lockDateTimeProvider)
 
         if (createDatabase) {
             InitDatabase(dataSource, lockTableName).createDatabase()

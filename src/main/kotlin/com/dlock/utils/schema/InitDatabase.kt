@@ -1,6 +1,6 @@
 package com.dlock.utils.schema
 
-import com.dlock.DBKeyLock
+import com.dlock.JDBCKeyLock
 import javax.sql.DataSource
 
 /**
@@ -22,7 +22,7 @@ class InitDatabase(private val dataSource: DataSource,
 
 
     private fun createH2Database() {
-        val initScriptTemplate = DBKeyLock::class.java.getResource("/db/create-h2.sql").readText()
+        val initScriptTemplate = JDBCKeyLock::class.java.getResource("/db/create-h2.sql").readText()
 
         val sql = initScriptTemplate.replace("@@tableName@@", tableName)
 

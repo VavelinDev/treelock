@@ -14,7 +14,7 @@ import java.util.*
  *
  * @author Przemyslaw Malirz
  */
-class DBKeyLock(
+class JDBCKeyLock(
         private val lockRepository: JDBCLockRepository,
         private val lockHandleIdGenerator: LockHandleIdGenerator,
         private val lockExpirationPolicy: LockExpirationPolicy,
@@ -23,14 +23,12 @@ class DBKeyLock(
 
     override fun tryLock(lockKey: String, expirationSeconds: Long): Optional<LockHandle> {
         val currentLockRecord = lockRepository.findLockByKey(lockKey)
-
         return if (expired(currentLockRecord)) {
             breakLockIfExists(currentLockRecord)
             return createNewLock(lockKey, expirationSeconds)
         } else {
             Optional.empty()
         }
-
     }
 
     override fun unlock(lockHandle: LockHandle) {
@@ -50,7 +48,6 @@ class DBKeyLock(
 
     private fun createLockRecord(lockKey: String, expirationSeconds: Long): LockRecord {
         val lockHandleId = lockHandleIdGenerator.generate()
-
         return LockRecord(lockKey, lockHandleId, dateTimeProvider.now(), expirationSeconds)
     }
 
