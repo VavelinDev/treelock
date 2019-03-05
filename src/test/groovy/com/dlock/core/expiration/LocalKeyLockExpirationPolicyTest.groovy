@@ -1,7 +1,7 @@
-package com.dlock.expiration
+package com.dlock.core.expiration
 
-
-import com.dlock.time.DateTimeProvider
+import com.dlock.core.expiration.LocalLockExpirationPolicy
+import com.dlock.util.time.DateTimeProvider
 import spock.lang.Specification
 
 import java.time.LocalDateTime

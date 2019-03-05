@@ -1,4 +1,4 @@
-package com.dlock.model
+package com.dlock.core.handle
 
 /**
  * Generate unique handle ID when a lock is created.

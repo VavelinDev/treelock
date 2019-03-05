@@ -1,6 +1,6 @@
-package com.dlock.repository
+package com.dlock.core.repository
 
-import com.dlock.model.LockRecord
+import com.dlock.core.model.LockRecord
 import java.util.*
 
 /**

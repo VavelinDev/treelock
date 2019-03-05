@@ -1,4 +1,4 @@
-package com.dlock.expiration
+package com.dlock.core.expiration
 
 import java.time.LocalDateTime
 

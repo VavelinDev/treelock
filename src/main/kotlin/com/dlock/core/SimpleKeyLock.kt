@@ -1,21 +1,21 @@
-package com.dlock
+package com.dlock.core
 
 import com.dlock.api.KeyLock
 import com.dlock.api.LockHandle
-import com.dlock.expiration.LockExpirationPolicy
-import com.dlock.model.LockHandleIdGenerator
-import com.dlock.model.LockRecord
-import com.dlock.repository.JDBCLockRepository
-import com.dlock.time.DateTimeProvider
+import com.dlock.core.expiration.LockExpirationPolicy
+import com.dlock.core.repository.LockRepository
+import com.dlock.core.handle.LockHandleIdGenerator
+import com.dlock.core.model.LockRecord
+import com.dlock.util.time.DateTimeProvider
 import java.util.*
 
 /**
- * KeyLock based on plain JDBC.
+ * The simplest implementation of the {@link KeyLock} interface based on the repository.
  *
  * @author Przemyslaw Malirz
  */
-class JDBCKeyLock(
-        private val lockRepository: JDBCLockRepository,
+class SimpleKeyLock(
+        private val lockRepository: LockRepository,
         private val lockHandleIdGenerator: LockHandleIdGenerator,
         private val lockExpirationPolicy: LockExpirationPolicy,
         private val dateTimeProvider: DateTimeProvider)

@@ -1,4 +1,4 @@
-package com.dlock.model
+package com.dlock.core.model
 
 import java.time.LocalDateTime
 

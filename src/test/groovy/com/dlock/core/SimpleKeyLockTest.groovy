@@ -1,20 +1,21 @@
-package com.dlock
+package com.dlock.core
 
 
 import com.dlock.api.KeyLock
 import com.dlock.api.LockHandle
-import com.dlock.repository.JDBCLockRepository
+import com.dlock.infrastructure.repository.JDBCLockRepository
+import com.dlock.infrastructure.builder.JDBCKeyLockBuilder
 import org.h2.jdbcx.JdbcDataSource
 import spock.lang.Specification
 
 /**
- * Bunch of quick tests against JDBCKeyLock. They cover most of the cases we are interested in.
+ * Bunch of quick tests against SimpleKeyLock. They cover most of the cases we are interested in.
  * There is also dlock-benchmark (based on jmh) project which completes that integration test with more
  * concurrent usage scenarios.
  *
  * @author Przemyslaw Malirz
  */
-class JDBCKeyLockTest extends Specification {
+class SimpleKeyLockTest extends Specification {
 
     private KeyLock keyLock
     private JDBCLockRepository repository
