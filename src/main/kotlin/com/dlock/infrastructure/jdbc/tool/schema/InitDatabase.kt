@@ -26,7 +26,7 @@ class InitDatabase(private val databaseType: DatabaseType,
 
 
     private fun createH2Database() {
-        val initScriptTemplate = SimpleKeyLock::class.java.getResource("/db/create-h2.sql").readText()
+        val initScriptTemplate = SimpleKeyLock::class.java.getResource("/db/H2-create.sql").readText()
 
         val sql = initScriptTemplate.replace("@@tableName@@", tableName)
 
