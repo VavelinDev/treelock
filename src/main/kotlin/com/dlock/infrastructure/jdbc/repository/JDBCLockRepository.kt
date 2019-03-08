@@ -2,6 +2,7 @@ package com.dlock.infrastructure.jdbc.repository
 
 import com.dlock.core.repository.LockRepository
 import com.dlock.core.model.LockRecord
+import com.dlock.infrastructure.jdbc.DatabaseType
 import java.sql.Connection
 import java.sql.Timestamp
 import java.util.*
@@ -13,8 +14,25 @@ import javax.sql.DataSource
  * @author Przemyslaw Malirz
  */
 class JDBCLockRepository(
+        databaseType: DatabaseType,
         private val dataSource: DataSource,
         private val tableName: String) : LockRepository {
+
+    private var insertSQL: String
+    private var findByHandleSQL: String
+    private var findByKeySQL: String
+    private var removeByHandleSQL: String
+
+    init {
+        val sqlResource = Properties()
+        val propertyFileName = "db/$databaseType-sql.properties"
+        sqlResource.load(this.javaClass.classLoader.getResourceAsStream(propertyFileName))
+
+        insertSQL = sqlResource.getProperty("lock.insert").replace("@@tableName@@", tableName)
+        findByHandleSQL = sqlResource.getProperty("lock.findByHandle").replace("@@tableName@@", tableName)
+        findByKeySQL = sqlResource.getProperty("lock.findByKey").replace("@@tableName@@", tableName)
+        removeByHandleSQL = sqlResource.getProperty("lock.removeByHandle").replace("@@tableName@@", tableName)
+    }
 
     override fun createLock(lockRecord: LockRecord): Boolean {
         dataSource.connection.use {
@@ -51,9 +69,7 @@ class JDBCLockRepository(
 
     /** Select SQL PreparedStatement. */
     private fun executeFindByHandleId(connection: Connection, lockHandleId: String): Optional<LockRecord> {
-        val sql = "SELECT  LCK_KEY, LCK_HNDL_ID, CREATED_TIME, EXPIRE_SEC FROM $tableName WHERE LCK_HNDL_ID = ?"
-
-        with(connection.prepareStatement(sql)) {
+        with(connection.prepareStatement(findByHandleSQL)) {
             setString(1, lockHandleId)
 
             val executeResult = execute() && resultSet.next()
@@ -73,9 +89,7 @@ class JDBCLockRepository(
 
     /** Select SQL PreparedStatement. */
     private fun executeFindByKey(connection: Connection, lockKey: String): Optional<LockRecord> {
-        val sql = "SELECT LCK_KEY, LCK_HNDL_ID, CREATED_TIME, EXPIRE_SEC FROM $tableName WHERE LCK_KEY = ?"
-
-        with(connection.prepareStatement(sql)) {
+        with(connection.prepareStatement(findByKeySQL)) {
             setString(1, lockKey)
 
             val executeResult = execute() && resultSet.next()
@@ -95,11 +109,7 @@ class JDBCLockRepository(
 
     /** Insert SQL PreparedStatement. */
     private fun executeInsert(connection: Connection, lockRecord: LockRecord): Boolean {
-        val sql = "INSERT INTO $tableName (LCK_KEY, LCK_HNDL_ID, CREATED_TIME, EXPIRE_SEC) " +
-                "SELECT ?, ?, ?, ? FROM DUAL " +
-                "WHERE NOT EXISTS (SELECT 1 FROM $tableName WHERE LCK_KEY = ?)"
-
-        with(connection.prepareStatement(sql)) {
+        with(connection.prepareStatement(insertSQL)) {
             setString(1, lockRecord.lockKey)
             setString(2, lockRecord.lockHandleId)
             setTimestamp(3, Timestamp.valueOf(lockRecord.createdTime))
@@ -108,14 +118,11 @@ class JDBCLockRepository(
 
             return executeUpdate() == 1
         }
-
     }
 
     /** Delete SQL PreparedStatement. */
     private fun executeRemove(connection: Connection, lockHandleId: String): Boolean {
-        val sql = "DELETE FROM $tableName WHERE LCK_HNDL_ID = ?"
-
-        val deleteStatement = connection.prepareStatement(sql)
+        val deleteStatement = connection.prepareStatement(removeByHandleSQL)
         deleteStatement.setString(1, lockHandleId)
         return deleteStatement.executeUpdate() == 1
     }

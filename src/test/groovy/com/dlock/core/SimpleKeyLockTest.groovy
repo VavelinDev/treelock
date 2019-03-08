@@ -2,6 +2,7 @@ package com.dlock.core
 
 import com.dlock.api.KeyLock
 import com.dlock.api.LockHandle
+import com.dlock.infrastructure.jdbc.DatabaseType
 import com.dlock.infrastructure.jdbc.builder.JDBCKeyLockBuilder
 import com.dlock.infrastructure.jdbc.repository.JDBCLockRepository
 import org.h2.jdbcx.JdbcDataSource
@@ -28,10 +29,11 @@ class SimpleKeyLockTest extends Specification {
         dataSource.setPassword("")
 
         // it help us to check if the lock exists in the database once created
-        repository = new JDBCLockRepository(dataSource, JDBCKeyLockBuilder.DEFAULT_LOCK_TABLE_NAME)
+        repository = new JDBCLockRepository(DatabaseType.H2, dataSource, JDBCKeyLockBuilder.DEFAULT_LOCK_TABLE_NAME)
 
         keyLock = new JDBCKeyLockBuilder()
                 .dataSource(dataSource)
+                .databaseType(DatabaseType.H2)
                 .createDatabase(true)
                 .build()
 

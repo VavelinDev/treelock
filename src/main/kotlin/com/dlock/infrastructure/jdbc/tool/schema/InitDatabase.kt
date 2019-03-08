@@ -1,6 +1,7 @@
 package com.dlock.infrastructure.jdbc.tool.schema
 
 import com.dlock.core.SimpleKeyLock
+import com.dlock.infrastructure.jdbc.DatabaseType
 import javax.sql.DataSource
 
 /**
@@ -11,13 +12,16 @@ import javax.sql.DataSource
  *
  * @author Przemyslaw Malirz
  */
-class InitDatabase(private val dataSource: DataSource,
+class InitDatabase(private val databaseType: DatabaseType,
+                   private val dataSource: DataSource,
                    private val tableName: String) {
 
     @Synchronized
     fun createDatabase() {
-        // if H2:
-        createH2Database()
+        when (databaseType) {
+            DatabaseType.H2 -> createH2Database()
+            else -> throw IllegalStateException("Unsupported database type: \"$databaseType\"")
+        }
     }
 
 

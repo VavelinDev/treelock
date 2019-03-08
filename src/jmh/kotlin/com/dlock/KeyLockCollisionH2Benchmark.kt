@@ -1,6 +1,7 @@
 package com.dlock
 
 import com.dlock.api.KeyLock
+import com.dlock.infrastructure.jdbc.DatabaseType
 import com.dlock.infrastructure.jdbc.builder.JDBCKeyLockBuilder
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -40,7 +41,9 @@ open class KeyLockCollisionH2Benchmark {
             config.addDataSourceProperty("maximumPoolSize", "1000")
             val dataSource = HikariDataSource(config)
 
-            keyLock = JDBCKeyLockBuilder().dataSource(dataSource).createDatabase(true).build()
+            keyLock = JDBCKeyLockBuilder().dataSource(dataSource)
+                    .databaseType(DatabaseType.H2)
+                    .createDatabase(true).build()
 
             keyLock.tryLock(LOCK_KEY, 100000)
         }
