@@ -18,8 +18,8 @@ class ScriptResolver(private val databaseType: DatabaseType, private val tableNa
 
     init {
         val resourcePath = Paths.get(this.javaClass.classLoader.getResource("db/$databaseType-sql.properties").toURI())
-        val fileContent = Files.readString(resourcePath)
-        sqlResource.load(StringReader(fileContent.replace(tableNamePlaceholder, tableName)))
+        val fileContent = String(Files.readAllBytes(resourcePath)).replace(tableNamePlaceholder, tableName)
+        sqlResource.load(StringReader(fileContent))
     }
 
     fun resolveScript(scriptPropertyKey: String): String {
