@@ -18,15 +18,7 @@ class InitDatabase(private val databaseType: DatabaseType,
 
     @Synchronized
     fun createDatabase() {
-        when (databaseType) {
-            DatabaseType.H2 -> createH2Database()
-            else -> throw IllegalStateException("Unsupported database type: \"$databaseType\"")
-        }
-    }
-
-
-    private fun createH2Database() {
-        val initScriptTemplate = SimpleKeyLock::class.java.getResource("/db/H2-create.sql").readText()
+        val initScriptTemplate = SimpleKeyLock::class.java.getResource("/db/$databaseType-create.sql").readText()
 
         val sql = initScriptTemplate.replace("@@tableName@@", tableName)
 
@@ -35,5 +27,4 @@ class InitDatabase(private val databaseType: DatabaseType,
             createStatement.execute(sql)
         }
     }
-
 }
