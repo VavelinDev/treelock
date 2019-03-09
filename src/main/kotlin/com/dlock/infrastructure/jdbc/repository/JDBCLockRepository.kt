@@ -1,8 +1,8 @@
 package com.dlock.infrastructure.jdbc.repository
 
-import com.dlock.core.repository.LockRepository
 import com.dlock.core.model.LockRecord
-import com.dlock.infrastructure.jdbc.DatabaseType
+import com.dlock.core.repository.LockRepository
+import com.dlock.infrastructure.jdbc.tool.script.ScriptResolver
 import java.sql.Connection
 import java.sql.Timestamp
 import java.util.*
@@ -14,25 +14,13 @@ import javax.sql.DataSource
  * @author Przemyslaw Malirz
  */
 class JDBCLockRepository(
-        databaseType: DatabaseType,
-        private val dataSource: DataSource,
-        private val tableName: String) : LockRepository {
+        scriptResolver: ScriptResolver,
+        private val dataSource: DataSource) : LockRepository {
 
-    private var insertSQL: String
-    private var findByHandleSQL: String
-    private var findByKeySQL: String
-    private var removeByHandleSQL: String
-
-    init {
-        val sqlResource = Properties()
-        val propertyFileName = "db/$databaseType-sql.properties"
-        sqlResource.load(this.javaClass.classLoader.getResourceAsStream(propertyFileName))
-
-        insertSQL = sqlResource.getProperty("lock.insert").replace("@@tableName@@", tableName)
-        findByHandleSQL = sqlResource.getProperty("lock.findByHandle").replace("@@tableName@@", tableName)
-        findByKeySQL = sqlResource.getProperty("lock.findByKey").replace("@@tableName@@", tableName)
-        removeByHandleSQL = sqlResource.getProperty("lock.removeByHandle").replace("@@tableName@@", tableName)
-    }
+    private var insertSQL = scriptResolver.resolveScript("lock.insert")
+    private var findByHandleSQL = scriptResolver.resolveScript("lock.findByHandle")
+    private var findByKeySQL = scriptResolver.resolveScript("lock.findByKey")
+    private var removeByHandleSQL = scriptResolver.resolveScript("lock.removeByHandle")
 
     override fun createLock(lockRecord: LockRecord): Boolean {
         dataSource.connection.use {

@@ -5,6 +5,7 @@ import com.dlock.api.LockHandle
 import com.dlock.infrastructure.jdbc.DatabaseType
 import com.dlock.infrastructure.jdbc.builder.JDBCKeyLockBuilder
 import com.dlock.infrastructure.jdbc.repository.JDBCLockRepository
+import com.dlock.infrastructure.jdbc.tool.script.ScriptResolver
 import org.h2.jdbcx.JdbcDataSource
 import spock.lang.Specification
 
@@ -28,8 +29,9 @@ class SimpleKeyLockTest extends Specification {
         dataSource.setUser("sa")
         dataSource.setPassword("")
 
+        def scriptResolver = new ScriptResolver(DatabaseType.H2, JDBCKeyLockBuilder.DEFAULT_LOCK_TABLE_NAME)
         // it help us to check if the lock exists in the database once created
-        repository = new JDBCLockRepository(DatabaseType.H2, dataSource, JDBCKeyLockBuilder.DEFAULT_LOCK_TABLE_NAME)
+        repository = new JDBCLockRepository(scriptResolver, dataSource)
 
         keyLock = new JDBCKeyLockBuilder()
                 .dataSource(dataSource)

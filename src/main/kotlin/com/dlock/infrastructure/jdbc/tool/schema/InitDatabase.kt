@@ -1,7 +1,6 @@
 package com.dlock.infrastructure.jdbc.tool.schema
 
-import com.dlock.core.SimpleKeyLock
-import com.dlock.infrastructure.jdbc.DatabaseType
+import com.dlock.infrastructure.jdbc.tool.script.ScriptResolver
 import javax.sql.DataSource
 
 /**
@@ -12,15 +11,12 @@ import javax.sql.DataSource
  *
  * @author Przemyslaw Malirz
  */
-class InitDatabase(private val databaseType: DatabaseType,
-                   private val dataSource: DataSource,
-                   private val tableName: String) {
+class InitDatabase(private val scriptResolver: ScriptResolver,
+                   private val dataSource: DataSource) {
 
     @Synchronized
     fun createDatabase() {
-        val initScriptTemplate = SimpleKeyLock::class.java.getResource("/db/$databaseType-create.sql").readText()
-
-        val sql = initScriptTemplate.replace("@@tableName@@", tableName)
+        val sql = scriptResolver.resolveDDLScript()
 
         dataSource.connection.use {
             val createStatement = it.createStatement()

@@ -1,14 +1,15 @@
 package com.dlock.infrastructure.jdbc.builder
 
 import com.dlock.core.SimpleKeyLock
-import com.dlock.core.expiration.LockExpirationPolicy
 import com.dlock.core.expiration.LocalLockExpirationPolicy
+import com.dlock.core.expiration.LockExpirationPolicy
 import com.dlock.core.handle.LockHandleIdGenerator
 import com.dlock.core.handle.LockHandleUUIDIdGenerator
 import com.dlock.infrastructure.jdbc.DatabaseType
 import com.dlock.infrastructure.jdbc.repository.JDBCLockRepository
-import com.dlock.util.time.DateTimeProvider
 import com.dlock.infrastructure.jdbc.tool.schema.InitDatabase
+import com.dlock.infrastructure.jdbc.tool.script.ScriptResolver
+import com.dlock.util.time.DateTimeProvider
 import javax.sql.DataSource
 
 /**
@@ -72,12 +73,14 @@ class JDBCKeyLockBuilder {
         checkNotNull(databaseType) { "Please declare databaseType" }
         checkNotNull(dataSource) { "Please declare dataSource" }
 
-        val lockRepository = JDBCLockRepository(databaseType, dataSource, lockTableName)
+        val scriptResolver = ScriptResolver(databaseType, lockTableName)
+
+        val lockRepository = JDBCLockRepository(scriptResolver, dataSource)
         val lockHandleUUIDGenerator = LockHandleUUIDIdGenerator()
         val dbdLock = SimpleKeyLock(lockRepository, lockHandleUUIDGenerator, lockExpirationPolicy, lockDateTimeProvider)
 
         if (createDatabase) {
-            InitDatabase(databaseType, dataSource, lockTableName).createDatabase()
+            InitDatabase(scriptResolver, dataSource).createDatabase()
         }
 
         return dbdLock
