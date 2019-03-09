@@ -1,6 +1,9 @@
 package com.dlock.infrastructure.jdbc.tool.script
 
 import com.dlock.infrastructure.jdbc.DatabaseType
+import java.io.StringReader
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.*
 
 /**
@@ -14,17 +17,17 @@ class ScriptResolver(private val databaseType: DatabaseType, private val tableNa
     private val sqlResource = Properties()
 
     init {
-        val propertyFileName = "db/$databaseType-sql.properties"
-        sqlResource.load(this.javaClass.classLoader.getResourceAsStream(propertyFileName))
+        val resourcePath = Paths.get(this.javaClass.classLoader.getResource("db/$databaseType-sql.properties").toURI())
+        val fileContent = Files.readString(resourcePath)
+        sqlResource.load(StringReader(fileContent.replace(tableNamePlaceholder, tableName)))
     }
 
     fun resolveScript(scriptPropertyKey: String): String {
-        return sqlResource.getProperty(scriptPropertyKey).replace(tableNamePlaceholder, tableName)
+        return sqlResource.getProperty(scriptPropertyKey)
     }
 
     fun resolveDDLScript(): String {
         val initScriptTemplate = this::class.java.getResource("/db/$databaseType-create.sql").readText()
         return initScriptTemplate.replace(tableNamePlaceholder, tableName)
     }
-
 }
