@@ -3,9 +3,9 @@ package com.dlock.core
 import com.dlock.api.KeyLock
 import com.dlock.api.LockHandle
 import com.dlock.core.expiration.LockExpirationPolicy
-import com.dlock.core.repository.LockRepository
 import com.dlock.core.handle.LockHandleIdGenerator
 import com.dlock.core.model.LockRecord
+import com.dlock.core.repository.LockRepository
 import com.dlock.util.time.DateTimeProvider
 import java.util.*
 

@@ -1,6 +1,6 @@
 package com.dlock.core
 
-import com.dlock.api.KeyLock
+
 import com.dlock.api.LockHandle
 import com.dlock.infrastructure.jdbc.DatabaseType
 import com.dlock.infrastructure.jdbc.builder.JDBCKeyLockBuilder
