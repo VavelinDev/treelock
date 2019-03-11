@@ -1,9 +1,8 @@
 package com.dlock.infrastructure.jdbc.tool.script
 
 import com.dlock.infrastructure.jdbc.DatabaseType
+import java.io.InputStreamReader
 import java.io.StringReader
-import java.nio.file.Files
-import java.nio.file.Paths
 import java.util.*
 
 /**
@@ -17,8 +16,9 @@ class ScriptResolver(private val databaseType: DatabaseType, private val tableNa
     private val sqlResource = Properties()
 
     init {
-        val resourcePath = Paths.get(this.javaClass.classLoader.getResource("db/$databaseType-sql.properties").toURI())
-        val fileContent = String(Files.readAllBytes(resourcePath)).replace(tableNamePlaceholder, tableName)
+        val rawContent = InputStreamReader(this.javaClass.classLoader.getResourceAsStream("db/$databaseType-sql.properties"))
+                .readText()
+        val fileContent = rawContent.replace(tableNamePlaceholder, tableName)
         sqlResource.load(StringReader(fileContent))
     }
 
