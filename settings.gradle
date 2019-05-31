@@ -1,1 +1,4 @@
 rootProject.name = 'dlock'
+
+include 'dlock-core'
+include 'dlock-api'
