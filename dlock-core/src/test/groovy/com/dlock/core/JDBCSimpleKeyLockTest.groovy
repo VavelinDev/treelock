@@ -1,12 +1,11 @@
 package com.dlock.core
 
-
 import com.dlock.api.LockHandle
-import com.dlock.infrastructure.jdbc.DatabaseType
 import com.dlock.infrastructure.jdbc.builder.JDBCKeyLockBuilder
 import com.dlock.infrastructure.jdbc.repository.JDBCLockRepository
 import com.dlock.infrastructure.jdbc.tool.script.ScriptResolver
-import org.h2.jdbcx.JdbcDataSource
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import spock.lang.Specification
 
 /**
@@ -14,31 +13,36 @@ import spock.lang.Specification
  * There is also dlock-benchmark (based on jmh) project which completes that integration test with more
  * concurrent usage scenarios.
  *
+ * The test requires TestRuntimeProperties passed in runtime to work with other database than H2.
+ * That way we can test compatibility with other SQL database engines.
+ *
  * @author Przemyslaw Malirz
  */
-class SimpleKeyLockTest extends Specification {
+class JDBCSimpleKeyLockTest extends Specification {
 
     private SimpleKeyLock keyLock
     private JDBCLockRepository repository
 
     def setup() {
-        // H2 datasource
-        def dataSource = new JdbcDataSource()
-        dataSource.setURL("jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1")
-        //dataSource.setURL("jdbc:h2:tcp://localhost/~/test;TRACE_LEVEL_FILE=2")
-        dataSource.setUser("sa")
-        dataSource.setPassword("")
+        def testProperties = TestRuntimeProperties.getProperties()
 
-        def scriptResolver = new ScriptResolver(DatabaseType.H2, JDBCKeyLockBuilder.DEFAULT_LOCK_TABLE_NAME)
+        def config = new HikariConfig()
+        config.jdbcUrl = testProperties.getDatabaseURL()
+        config.username = testProperties.getDatabaseUser()
+        config.password = testProperties.getDatabasePassword()
+        def dataSource = new HikariDataSource(config)
+
+        def scriptResolver = new ScriptResolver(testProperties.getDatabaseType(), JDBCKeyLockBuilder.DEFAULT_LOCK_TABLE_NAME)
         // it help us to check if the lock exists in the database once created
         repository = new JDBCLockRepository(scriptResolver, dataSource)
 
         keyLock = new JDBCKeyLockBuilder()
                 .dataSource(dataSource)
-                .databaseType(DatabaseType.H2)
-                .createDatabase(true)
+                .databaseType(testProperties.getDatabaseType())
+                .createDatabase(testProperties.getDatabaseInit())
                 .build()
 
+        // let's purge DLOCK table just to be sure nothing interferes with the test suit
         dataSource.connection.prepareStatement("DELETE FROM DLCK").executeUpdate()
     }
 

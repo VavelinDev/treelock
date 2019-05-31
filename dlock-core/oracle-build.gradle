@@ -1,0 +1,21 @@
+/**
+ * This build fragment adds Oracle datasource jar so the project can be tested against Oracle RDBMS.
+ * To enable Oracle functionality one have to pass the following runtime arguments:
+ * -PoracleUser=<oracle account user> -PoraclePassword=<oracle account password>
+ * This build script factors in only jmh and testCompile Oracle dependencies. It's is not used to compile the library.
+ */
+
+dependencies {
+    testCompile group: 'com.oracle.jdbc', name: 'ojdbc8', version: '12.2.0.1'
+    jmh group: 'com.oracle.jdbc', name: 'ojdbc8', version: '12.2.0.1'
+}
+
+repositories {
+    maven {
+        url "https://www.oracle.com/content/secure/maven/content"
+        credentials {
+            username "${oracleUser}"
+            password "${oraclePassword}"
+        }
+    }
+}

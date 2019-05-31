@@ -1,0 +1,53 @@
+/*
+ * Przemyslaw Malirz
+ *
+ * DLock API - Distributed Lock
+ */
+buildscript {
+    ext.kotlin_version = '1.3.21'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+plugins {
+    id 'java-library'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.21'
+    id 'maven'
+    id 'maven-publish'
+}
+
+apply plugin: "kotlin"
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+}
+
+repositories {
+    jcenter()
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.dlock'
+            version = '1.0-SNAPSHOT'
+            from components.java
+        }
+    }
+}
