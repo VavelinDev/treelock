@@ -1,7 +1,7 @@
 /*
  * Przemyslaw Malirz
  *
- * DLock JDBC - Distributed Lock
+ * DLock Core - Distributed Lock
  */
 buildscript {
     ext.kotlin_version = '1.3.21'
@@ -21,32 +21,17 @@ plugins {
     id 'maven'
     id 'maven-publish'
     id 'jacoco'
-    id 'me.champeau.gradle.jmh' version '0.4.8'
 }
 
 apply plugin: "kotlin"
 apply plugin: "groovy"
 
-// Enable Oracle tests (for unit tests and jmh)
-if (project.hasProperty("oracleUser")) {
-    println "Enabling Oracle test and jmh dependencies for $oracleUser/*******"
-    apply from: 'oracle-build.gradle'
-}
-
 dependencies {
-    compile "com.dlock:dlock-api:1.0"
+    compile "com.dlock:dlock-api:1.0-SNAPSHOT"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
     testCompile "org.codehaus.groovy:groovy-all:2.5.6"
     testCompile group: 'org.spockframework', name: 'spock-core', version: '1.2-groovy-2.5'
-    testCompile group: 'com.h2database', name: 'h2', version: '1.4.197'
-    testCompile group: 'com.zaxxer', name: 'HikariCP', version: '3.3.1'
-    testCompile "org.hamcrest:hamcrest-core:1.3"
-    testRuntime "net.bytebuddy:byte-buddy:1.8.21"
-    testRuntime "org.objenesis:objenesis:2.6"
-
-    jmh group: 'com.h2database', name: 'h2', version: '1.4.197'
-    jmh group: 'com.zaxxer', name: 'HikariCP', version: '3.3.1'
 }
 
 repositories {
@@ -109,21 +94,5 @@ jacocoTestCoverageVerification {
             }
         }
     }
-}
-
-jmh {
-    fork = 2
-    iterations = 2
-    jmhVersion = '1.21'
-    profilers = ['gc']
-    threads = 5
-    warmup = '1s'
-    warmupBatchSize = 1
-    warmupIterations = 1
-    jvmArgs = ['-Xms512m', '-Xmx1024m', '-Djmh.separateClasspathJAR=true', '-Dlog4j.configurationFile=conf/log4j2.xml']
-}
-
-jmhJar {
-    exclude 'log4j2.xml'
 }
 

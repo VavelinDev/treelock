@@ -1,4 +1,4 @@
-package com.dlock.infrastructure.jdbc
+package com.dlock.jdbc
 
 /**
  * Supported RDBMS.

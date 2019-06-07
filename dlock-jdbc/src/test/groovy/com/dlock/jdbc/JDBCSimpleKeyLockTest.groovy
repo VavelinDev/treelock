@@ -1,9 +1,10 @@
-package com.dlock.core
+package com.dlock.jdbc
 
 import com.dlock.api.LockHandle
-import com.dlock.infrastructure.jdbc.builder.JDBCKeyLockBuilder
-import com.dlock.infrastructure.jdbc.repository.JDBCLockRepository
-import com.dlock.infrastructure.jdbc.tool.script.ScriptResolver
+import com.dlock.core.SimpleKeyLock
+import com.dlock.jdbc.builder.JDBCKeyLockBuilder
+import com.dlock.jdbc.repository.JDBCLockRepository
+import com.dlock.jdbc.tool.script.ScriptResolver
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import spock.lang.Specification

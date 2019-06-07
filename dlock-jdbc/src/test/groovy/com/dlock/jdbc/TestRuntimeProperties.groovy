@@ -1,6 +1,4 @@
-package com.dlock.core
-
-import com.dlock.infrastructure.jdbc.DatabaseType
+package com.dlock.jdbc
 
 /**
  * Unit test runtime parameters.

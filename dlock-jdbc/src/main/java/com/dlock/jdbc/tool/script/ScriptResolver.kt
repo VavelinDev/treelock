@@ -1,6 +1,6 @@
-package com.dlock.infrastructure.jdbc.tool.script
+package com.dlock.jdbc.tool.script
 
-import com.dlock.infrastructure.jdbc.DatabaseType
+import com.dlock.jdbc.DatabaseType
 import java.io.InputStreamReader
 import java.io.StringReader
 import java.util.*

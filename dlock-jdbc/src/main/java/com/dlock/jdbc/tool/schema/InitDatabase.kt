@@ -1,6 +1,6 @@
-package com.dlock.infrastructure.jdbc.tool.schema
+package com.dlock.jdbc.tool.schema
 
-import com.dlock.infrastructure.jdbc.tool.script.ScriptResolver
+import com.dlock.jdbc.tool.script.ScriptResolver
 import javax.sql.DataSource
 
 /**

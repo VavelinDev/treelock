@@ -3,7 +3,7 @@ package com.dlock.core.model
 import java.time.LocalDateTime
 
 /**
- * DB representation of a lock.
+ * Persistent representation of a lock.
  *
  * @author Przemyslaw Malirz
  */

@@ -1,8 +1,8 @@
-package com.dlock.infrastructure.jdbc.repository
+package com.dlock.jdbc.repository
 
 import com.dlock.core.model.LockRecord
 import com.dlock.core.repository.LockRepository
-import com.dlock.infrastructure.jdbc.tool.script.ScriptResolver
+import com.dlock.jdbc.tool.script.ScriptResolver
 import java.sql.Connection
 import java.sql.Timestamp
 import java.util.*

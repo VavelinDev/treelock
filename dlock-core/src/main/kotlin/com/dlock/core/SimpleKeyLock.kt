@@ -6,7 +6,7 @@ import com.dlock.core.expiration.LockExpirationPolicy
 import com.dlock.core.handle.LockHandleIdGenerator
 import com.dlock.core.model.LockRecord
 import com.dlock.core.repository.LockRepository
-import com.dlock.util.time.DateTimeProvider
+import com.dlock.core.util.time.DateTimeProvider
 import java.util.*
 
 /**

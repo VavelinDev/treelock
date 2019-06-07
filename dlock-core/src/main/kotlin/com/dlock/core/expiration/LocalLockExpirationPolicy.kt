@@ -1,6 +1,6 @@
 package com.dlock.core.expiration
 
-import com.dlock.util.time.DateTimeProvider
+import com.dlock.core.util.time.DateTimeProvider
 import java.time.LocalDateTime
 
 /**
