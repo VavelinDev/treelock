@@ -9,8 +9,6 @@ plugins {
     id 'maven-publish'
 }
 
-apply plugin: "kotlin"
-
 project.version = '1.0-SNAPSHOT'
 
 dependencies {

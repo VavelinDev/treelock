@@ -11,9 +11,6 @@ plugins {
     id 'me.champeau.gradle.jmh' version '0.4.8'
 }
 
-apply plugin: "kotlin"
-apply plugin: "groovy"
-
 project.version = '1.0-SNAPSHOT'
 
 // Enable Oracle tests (for unit tests and jmh)
