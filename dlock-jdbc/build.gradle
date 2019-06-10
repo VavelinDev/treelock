@@ -20,7 +20,7 @@ if (project.hasProperty("oracleUser")) {
 }
 
 dependencies {
-    compile "com.dlock:dlock-core:1.0-SNAPSHOT"
+    compile project(":dlock-core")
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
     testCompile "org.codehaus.groovy:groovy-all:2.5.6"
