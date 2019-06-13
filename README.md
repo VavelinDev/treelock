@@ -42,7 +42,7 @@ void generateInvoice() {
 2) Create DLOCK table in your database
 
 By default DLock uses DLOCK for its table name. But you easily change it (see pt 3).
-DDL scripts for different databases can by found inside the jar file or the DLock [sources](src/main/resources/db).
+DDL scripts for different databases can by found inside the jar file or the DLock [sources](dlock-core/src/main/resources/db).
 
 DDL for H2:
 ```sql
