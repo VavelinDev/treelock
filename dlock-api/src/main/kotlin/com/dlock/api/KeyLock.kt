@@ -12,7 +12,7 @@ interface KeyLock {
 
     /**
      * Gets a lock for a given amount of time, if available (providing the handle of that lock).
-     * If the lock is taken by someone else {@link Optional#empty} is returned.
+     * If the lock is taken by someone there is no exception thrown but simply {@link Optional#empty} is returned.
      */
     fun tryLock(lockKey: String, expirationSeconds: Long): Optional<LockHandle>
 
