@@ -20,13 +20,35 @@ Therefore only lock's owner can release it (still, the lock may expire before it
 ## Usual usage
 
 ```java
-final KeyLock dlock = <<create KeyLock instance>>
+final KeyLock dlock = <<create KeyLock instance>>;
 final Optional<DLockHandle> handle = dlock.tryLock("processing-reports-125", 300);
 if(handle.isPresent()) {
     try {
         // process...
     } finally {
         handle.get().unlock();
+    }
+}
+```
+
+The key of the lock _**processing-reports-125**_ is created dynamically. It means you can
+create keys in the runtime based on the situation. 
+For instance the user executes processing of a given report sending a request with ID or NAME
+of the report. That way the probable coe could look like this
+
+```java
+// Note that KeyLock instance is created once, globally, for the application instance.
+// It can by a bean (singleton) in the Spring Container. KeyLock instance is thread-safe.
+final KeyLock dlock = <<create KeyLock instance>>;
+
+private void processReport(final long reportId) {
+    final Optional<DLockHandle> handle = dlock.tryLock("processing-reports-" + reportId, 300);
+    if(handle.isPresent()) {
+        try {
+            // process...
+        } finally {
+            handle.get().unlock();
+        }
     }
 }
 ```
