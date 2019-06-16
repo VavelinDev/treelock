@@ -13,8 +13,8 @@ plugins {
 project.version = '1.0-SNAPSHOT'
 
 dependencies {
-    compile project(":dlock-api")
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    api project(":dlock-api")
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
     testCompile "org.codehaus.groovy:groovy-all:2.5.6"
     testCompile group: 'org.spockframework', name: 'spock-core', version: '1.2-groovy-2.5'
