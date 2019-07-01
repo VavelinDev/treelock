@@ -57,15 +57,15 @@ class JDBCLockRepository(
 
     /** Select SQL PreparedStatement. */
     private fun executeFindByHandleId(connection: Connection, lockHandleId: String): Optional<LockRecord> {
-        with(connection.prepareStatement(findByHandleSQL)) {
-            setString(1, lockHandleId)
+        connection.prepareStatement(findByHandleSQL).use {
+            it.setString(1, lockHandleId)
 
-            val executeResult = execute() && resultSet.next()
+            val executeResult = it.execute() && it.resultSet.next()
 
             return if (executeResult) {
-                val lockKey = resultSet.getString(1)
-                val lockCreatedTime = resultSet.getTimestamp(3)
-                val lockExpirationSeconds = resultSet.getLong(4)
+                val lockKey = it.resultSet.getString(1)
+                val lockCreatedTime = it.resultSet.getTimestamp(3)
+                val lockExpirationSeconds = it.resultSet.getLong(4)
                 val lockRecord = LockRecord(lockKey, lockHandleId, lockCreatedTime.toLocalDateTime(), lockExpirationSeconds)
                 Optional.of(lockRecord)
             } else {
@@ -77,15 +77,15 @@ class JDBCLockRepository(
 
     /** Select SQL PreparedStatement. */
     private fun executeFindByKey(connection: Connection, lockKey: String): Optional<LockRecord> {
-        with(connection.prepareStatement(findByKeySQL)) {
-            setString(1, lockKey)
+        connection.prepareStatement(findByKeySQL).use {
+            it.setString(1, lockKey)
 
-            val executeResult = execute() && resultSet.next()
+            val executeResult = it.execute() && it.resultSet.next()
 
             return if (executeResult) {
-                val lockHandleId = resultSet.getString(2)
-                val lockCreatedTime = resultSet.getTimestamp(3)
-                val lockExpirationSeconds = resultSet.getLong(4)
+                val lockHandleId = it.resultSet.getString(2)
+                val lockCreatedTime = it.resultSet.getTimestamp(3)
+                val lockExpirationSeconds = it.resultSet.getLong(4)
                 val lockRecord = LockRecord(lockKey, lockHandleId, lockCreatedTime.toLocalDateTime(), lockExpirationSeconds)
                 Optional.of(lockRecord)
             } else {
@@ -97,22 +97,23 @@ class JDBCLockRepository(
 
     /** Insert SQL PreparedStatement. */
     private fun executeInsert(connection: Connection, lockRecord: LockRecord): Boolean {
-        with(connection.prepareStatement(insertSQL)) {
-            setString(1, lockRecord.lockKey)
-            setString(2, lockRecord.lockHandleId)
-            setTimestamp(3, Timestamp.valueOf(lockRecord.createdTime))
-            setLong(4, lockRecord.expirationSeconds)
-            setString(5, lockRecord.lockKey)
+        connection.prepareStatement(insertSQL).use {
+            it.setString(1, lockRecord.lockKey)
+            it.setString(2, lockRecord.lockHandleId)
+            it.setTimestamp(3, Timestamp.valueOf(lockRecord.createdTime))
+            it.setLong(4, lockRecord.expirationSeconds)
+            it.setString(5, lockRecord.lockKey)
 
-            return executeUpdate() == 1
+            return it.executeUpdate() == 1
         }
     }
 
     /** Delete SQL PreparedStatement. */
     private fun executeRemove(connection: Connection, lockHandleId: String): Boolean {
-        val deleteStatement = connection.prepareStatement(removeByHandleSQL)
-        deleteStatement.setString(1, lockHandleId)
-        return deleteStatement.executeUpdate() == 1
+        connection.prepareStatement(removeByHandleSQL).use {
+            it.setString(1, lockHandleId)
+            return it.executeUpdate() == 1
+        }
     }
 
     private fun commit(connection: Connection) {
