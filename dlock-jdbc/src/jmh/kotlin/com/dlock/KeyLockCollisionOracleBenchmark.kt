@@ -1,8 +1,8 @@
 package com.dlock
 
 import com.dlock.api.KeyLock
-import com.dlock.infrastructure.jdbc.DatabaseType
-import com.dlock.infrastructure.jdbc.builder.JDBCKeyLockBuilder
+import com.dlock.jdbc.DatabaseType
+import com.dlock.jdbc.builder.JDBCKeyLockBuilder
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.openjdk.jmh.annotations.*
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
  */
 open class KeyLockCollisionOracleBenchmark {
 
-    @State(Scope.Benchmark)
+    //@State(Scope.Benchmark)
     open class ExecutionPlan {
 
         lateinit var keyLock: KeyLock
@@ -42,9 +42,9 @@ open class KeyLockCollisionOracleBenchmark {
         }
     }
 
-    @Benchmark
-    @BenchmarkMode(Mode.Throughput)
-    @OutputTimeUnit(TimeUnit.MILLISECONDS)
+ //   @Benchmark
+ //   @BenchmarkMode(Mode.Throughput)
+ //   @OutputTimeUnit(TimeUnit.MILLISECONDS)
     fun tryLockAlwaysCollision(executionPlan: ExecutionPlan) {
         executionPlan.keyLock.tryLock(executionPlan.LOCK_KEY, 1)
     }

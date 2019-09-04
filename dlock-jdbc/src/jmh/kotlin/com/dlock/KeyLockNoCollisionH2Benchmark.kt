@@ -1,8 +1,8 @@
 package com.dlock
 
 import com.dlock.api.KeyLock
-import com.dlock.infrastructure.jdbc.DatabaseType
-import com.dlock.infrastructure.jdbc.builder.JDBCKeyLockBuilder
+import com.dlock.jdbc.DatabaseType
+import com.dlock.jdbc.builder.JDBCKeyLockBuilder
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.h2.tools.Server
@@ -20,20 +20,20 @@ open class KeyLockNoCollisionH2Benchmark {
 
         @Setup(Level.Trial)
         fun start() {
-            h2Server = Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9079")
+            h2Server = Server.createTcpServer("-ifNotExists", "-tcp", "-tcpAllowOthers", "-tcpPort", "9079")
             h2Server.start()
         }
 
         @TearDown(Level.Trial)
         fun shutdown() {
-            h2Server.stop()
+            Server.shutdownTcpServer("tcp://localhost:9079", "", true, true);
         }
 
         @Setup(Level.Iteration)
         fun setUp() {
             val config = HikariConfig()
 
-            config.jdbcUrl = "jdbc:h2:tcp://localhost:9079/~/perftest"
+            config.jdbcUrl = "jdbc:h2:tcp://localhost:9079/~/dlockjmh"
             config.username = "sa"
             config.password = ""
             config.isAutoCommit = true
@@ -43,16 +43,8 @@ open class KeyLockNoCollisionH2Benchmark {
             keyLock = JDBCKeyLockBuilder().dataSource(dataSource)
                     .databaseType(DatabaseType.H2)
                     .createDatabase(true).build()
+
         }
-
-    }
-
-    @Benchmark
-    @BenchmarkMode(Mode.Throughput)
-    @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    fun tryAndReleaseLockNoCollision(executionPlan: ExecutionPlan) {
-        val lockHandle = executionPlan.keyLock.tryLock(UUID.randomUUID().toString(), 1)
-        executionPlan.keyLock.unlock(lockHandle.get())
     }
 
     @Benchmark
