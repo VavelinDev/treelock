@@ -26,8 +26,9 @@ class ScriptResolver(private val databaseType: DatabaseType, private val tableNa
         return sqlResource.getProperty(scriptPropertyKey)
     }
 
-    fun resolveDDLScript(): String {
+    fun resolveDDLScripts(): List<String> {
         val initScriptTemplate = this::class.java.getResource("/db/$databaseType-create.sql").readText()
-        return initScriptTemplate.replace(tableNamePlaceholder, tableName)
+        val entireScriptContent = initScriptTemplate.replace(tableNamePlaceholder, tableName)
+        return entireScriptContent.split(";")
     }
 }

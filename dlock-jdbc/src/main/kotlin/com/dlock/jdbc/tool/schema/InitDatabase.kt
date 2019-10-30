@@ -16,11 +16,14 @@ class InitDatabase(private val scriptResolver: ScriptResolver,
 
     @Synchronized
     fun createDatabase() {
-        val sql = scriptResolver.resolveDDLScript()
+        val ddls = scriptResolver.resolveDDLScripts()
 
-        dataSource.connection.use {
-            val createStatement = it.createStatement()
-            createStatement.execute(sql)
+        dataSource.connection.use { conn ->
+            ddls.forEach { ddl ->
+                val createStatement = conn.createStatement()
+                createStatement.execute(ddl)
+                createStatement.close()
+            }
         }
     }
 }
