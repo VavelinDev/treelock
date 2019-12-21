@@ -5,7 +5,7 @@
 dlock aims to be 100% reliable. Safety and simplicity is the top priority of dlock.
 Performance, still important, is the on the second place of it's consideration.
 
-But foremost, dlock is my first open source project and perhaps you may like it 🙋
+But foremost, dlock is my first open source project and perhaps you may like it
 
 dlock is a repository-based lock, meaning the locks are backed by a centrally placed database.
 I've been using that simple approach in many business projects projects which became an inspiration for that project. 
@@ -57,7 +57,7 @@ KeyLock keyLock = JDBCKeyLockBuilder().dataSource(dataSource).databaseType(Datab
 void generateInvoice() {
     // Request a named ("create-invoice") lock which may last no longer that 300 seconds.
     // After 300 seconds "create-invoice" lock expires (can be taken by an another thread / process)
-    final Optional<LockHandle> handle = dlock.tryLock("create-invoice", 300);
+    final Optional<LockHandle> handle = keyLock.tryLock("create-invoice", 300);
 
     // Test wheter we got a lock successfully. dlock does not throw exceptions in case lock is taken by other process,
     // as such a situation is no an exceptional one
