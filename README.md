@@ -2,36 +2,36 @@
 
 # dlock - synchronization backed by your database
 
-dlock aims to be 100% reliable. Safety and simplicity is the top priority of dlock.
+**dlock** aims to be a deadly simple and reliable solution for distributed locking problem. 
+Safety and simplicity is the top priority of dlock.
 Performance, still important, is the on the second place of it's consideration.
 
-But foremost, dlock is my first open source project and perhaps you may like it
+**dlock** is a repository-based lock, meaning the locks are backed by a centrally placed database.
+I've been using that simple approach in many business projects, what finally became an inspiration for that project.
+Who knows, maybe you also use your database as a 100% reliable engine for distributed locking (?).
 
-dlock is a repository-based lock, meaning the locks are backed by a centrally placed database.
-I've been using that simple approach in many business projects projects which became an inspiration for that project. 
-
-Central database is what majority of standard business project has in place, out of the box we can say. 
-Why not to use it as a distributed lock sync engine too? 
-Do you need an another lock orchestrator / engine? Do you need to introduce yet another
+Central database is what majority of standard business project has in place. 
+Why not to use it also as a lock synchronization engine too? 
+Do you need a separate lock orchestrator / solution? Do you have to introduce yet another
 block to your architecture, increasing the overall complexity? Perhaps not.
-I believe this is as simple as sufficient approach in many cases.
+I believe **dlock** ways is as simple as sufficient approach in many cases.
 
 The project is composed of 3 modules
 * **dlock-api**
 base interfaces for dlock implementations. It gives a good outline of dlock capabilities.
-Contains the key interface *KeyLock*, which is a humble API for working with locks.
+Contains the key interface _KeyLock_, which is a humble API for working with locks.
 * **dlock-core**
 base, abstract classes, common for all the specialized implementations (e.g. JDBC) such as: 
 expiration policies, lock model, repository interfaces
 * **dlock-jdbc**
-JDBC implementation of *dlock* backed by your central database.
+JDBC implementation of **dlock** backed by your central database.
 Can be adapted to any SQL-standard database.
 Also, has a few unit and jmh tests to test performance, thread-safety and consistency  
 
-All *dlock* implementations must be thread-safe.
+All **dlock** implementations must be thread-safe.
 That being said, a KeyLock instance can be shared by many threads.
 
-What's *KeyLock*? *KeyLock* is the main interface for dlock library.
+What's _KeyLock_? _KeyLock_ is the main interface for dlock library.
 You get and release your named (named by key) locks.  
 
 dlock is as reliable as your database transactions are.
@@ -80,11 +80,11 @@ It's because we rely on the _unlock()_ part which is going to release the lock.
 
 ### Set up your project
 
-1) Download *dlock* library
+1) Download **dlock** library
 
-2) Create _DLOCK_ table in your database
+2) Create **DLOCK** table in your database
 
-By default *dlock* uses DLOCK for the main table name. 
+By default **dlock** uses DLOCK for the main table name. 
 However you are free to change it (see pt 3).
 DDL scripts for different database types can by found inside the jar file or the dlock [sources](dlock-jdbc/src/main/resources/db).
 
@@ -101,7 +101,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "@@tableName@@_HNDL_UX" ON  "@@tableName@@" ("
 
 **LCK_KEY** column has to be unique!  
 
-3) Create your *dlock* instance 
+3) Create your _KeyLock_ instance 
 
 ```java
 @Bean
@@ -110,10 +110,10 @@ public KeyLock createDlock() {
 }
 ```
 
-Oh and remember again, *KeyLock* instance is thread-safe. 
+Oh and remember again, _KeyLock_ instance is thread-safe. 
 
 ### Afterword
 
-I also use *dlock* approach thru the REST API.
-In other words, *KeyLock* instance is exposed via simple RESTful methods.
+I also use **dlock** approach thru the REST API.
+In other words, _KeyLock_ instance is exposed via simple RESTful methods.
 
