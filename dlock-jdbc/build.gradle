@@ -1,7 +1,7 @@
 /*
  * Przemyslaw Malirz
  *
- * DLock JDBC - Distributed Lock
+ * dlock JDBC
  */
 plugins {
     id 'java-library'

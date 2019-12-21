@@ -3,7 +3,7 @@ package com.dlock.api
 import java.util.*
 
 /**
- * KeyLock main interface. It represents the main API of the library (distributed lock).
+ * KeyLock is the main interface of dlock. It represents the main API of the library.
  * KeyLock's implementation must be thread-safe.
  *
  * @author Przemyslaw Malirz

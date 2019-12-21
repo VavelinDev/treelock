@@ -1,7 +1,7 @@
 /*
  * Przemyslaw Malirz
  *
- * DLock API - Distributed Lock
+ * dlock API - Distributed Lock
  */
 plugins {
     id 'java-library'
