@@ -34,10 +34,15 @@ That being said, a KeyLock instance can be shared by many threads.
 What's _KeyLock_? _KeyLock_ is the main interface for dlock library.
 You get and release your named (named by key) locks.  
 
-dlock is as reliable as your database transactions are.
+**dlock** is meant to be as reliable as your database transactions are.
 
 _P.S. I don't mind using zookeeper, hazelcast and other great frameworks for distributed locking. 
 However, you can simply make use of your current infrastructure for the sake of simplicity._
+
+## How it works
+
+
+
 
 ## Usage example
 
@@ -76,9 +81,7 @@ As you have noticed, you had to declare an estimated time of how long your lock 
 This estimation should be as pessimistic as possible. 
 It's because we rely on the _unlock()_ part which is going to release the lock.
 
-## Architecture
-
-### Set up your project
+## Set up your project
 
 1) Download **dlock** library
 
