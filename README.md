@@ -7,7 +7,7 @@
 Let's get a distributed lock using **auto-closable API**
 ```java
 try (ClosableKeyLockProvider.ClosableLockHandle closableLockHandle = keyLockProvider.tryLock("/invoice/pay/4587", 900)) {
-    lockHandle = closableLockHandle.getLockHandle().orElse(null);
+    // perform some business logic
 }
 ```
 or on a standard way
