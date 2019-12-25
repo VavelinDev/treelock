@@ -50,10 +50,8 @@ Safety and simplicity is the top priority of dlock.
 **dlock** is a repository-based lock, meaning the locks are backed by a centrally placed database.
 
 Central database is what majority of standard business project has in place. 
-Why not to use it also as a lock synchronization engine too? 
-Do you need a separate lock orchestrator / solution? Do you have to introduce yet another
-block to your architecture, increasing the overall complexity? Perhaps not.
-I believe **dlock** ways is as simple as sufficient approach in many cases.
+Why not to use it as a lock synchronization engine (distributed lock manager) too? 
+**dlock** way is simple and sufficient approach in many cases.
 
 The project is composed of 3 modules
 * **dlock-api**
