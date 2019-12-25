@@ -4,13 +4,13 @@
 
 ## How to use it
 
-Let's get a distributed lock using **auto-closable API**
+Get a distributed lock using **auto-closable API**
 ```java
 try (ClosableKeyLockProvider.ClosableLockHandle closableLockHandle = keyLockProvider.tryLock("/invoice/pay/4587", 900)) {
     // perform some business logic
 }
 ```
-or on a standard way
+or in a standard way
 ```java
 final Optional<LockHandle> lockHandle = keyLock.tryLock("/invoice/pay/4587", 900);
 if(lockHandle.isPresent()) {
