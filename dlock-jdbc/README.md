@@ -1,15 +1,15 @@
-Much has been already said by the main *dlock* README file.
-And here is the main implementation of *dlock* library.
-JDBC API is the main focus of *dlock* repository based, distributed lock.
-However, dlock-api and dlock-core stays open for any other concretization, if needed. 
+Much has been already covered by the main **dlock** README file.
+And here is the main implementation of **dlock** library.
+JDBC API is the main focus of the **dlock** library.
+However, _dlock-api_ and _dlock-core_ stay open for any other, repository-based concretization. 
 As long as the chosen engine (e.g. Cache or NOSQL) gives you 100% guarantee of safety. 
 
-Don't forget to run jhm tests with the following command
+Also, don't forget to run jhm tests with the following command to see it in action
 ```shell script
 \> gradlew jmh
 ```
 
-Here is some raw example from my locally run test (with my Dell XPS 9560)
+Here is some raw example of my own tests run on my private laptop (Dell XPS 9560)
 
 ```text
 REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
