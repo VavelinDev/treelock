@@ -50,7 +50,7 @@ The _KeyLock_ instance works on a separate database connection / transaction.
 final Optional<LockHandle> lockHandle = keyLock.tryLock("/invoice/pay/4587", 900);
 ```
 The **_tryLock()_** method performs the following _INSERT_ query on the _DLCK_ table.
-```sql92
+```sql
 INSERT INTO DLCK (LCK_KEY, LCK_HNDL_ID, CREATED_TIME, EXPIRE_SEC) 
 SELECT '/invoice/pay/4587', 'da74f856-27d0-11ea-978f-2e728ce88125', '2019-12-31T06:40:12.623', '900' FROM DUAL 
 WHERE NOT EXISTS (SELECT 1 FROM DLCK WHERE LCK_KEY = '/invoice/pay/4587')
@@ -61,7 +61,7 @@ The **_unlock()_** method performs the following _DELETE_ query on the _DLCK_ ta
 keyLock.unlock(lockHandle.get())
 ```
 
-```sql92
+```sql
 DELETE FROM DLCK WHERE LCK_HNDL_ID = 'da74f856-27d0-11ea-978f-2e728ce88125'
 ```
 
