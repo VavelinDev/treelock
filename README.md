@@ -93,7 +93,7 @@ expiration policies, lock model, repository interfaces
 * **dlock-jdbc**
 JDBC implementation of **dlock** backed by your central database.
 Can be adapted to any SQL-standard database.
-Also, has a few unit and jmh tests to test performance, thread-safety and consistency  
+Also, has a few unit and jmh tests to test performance, thread-safety and consistency.
 
 All **dlock** implementations must be thread-safe.
 That being said, a KeyLock instance can be shared by many threads.
@@ -101,7 +101,10 @@ That being said, a KeyLock instance can be shared by many threads.
 What's _KeyLock_? _KeyLock_ is the main interface for dlock library.
 You get and release your named (named by key) locks.  
 
-**dlock** is meant to be as reliable as your database transactions are.
+The usage of JDBC implementation of the _KeyLock_ interface (_SimpleKeyLock_)  
+should not take part in the long running business transaction demarcated by the business method.
+_KeyLock_ must work inside its own transaction, flushing and committing internal SQL instructions
+immediately once _tryLock()_ or _unlock()_ is called.   
 
 _P.S. I don't mind using zookeeper, hazelcast and other great frameworks for distributed locking. 
 However, you can simply make use of your current infrastructure for the sake of simplicity._
