@@ -1,6 +1,7 @@
 <img src="https://github.com/pmalirz/dlock/blob/master/doc/images/dlock-logo.png">
 
 # dlock - distributed locking backed by your database
+[![CircleCI](https://circleci.com/gh/pmalirz/dlock.svg?style=svg)](https://circleci.com/gh/pmalirz/dlock)
 
 ## How to use it
 
