@@ -46,10 +46,10 @@ The _KeyLock_ instance works on a separate database connection / transaction.
 
 ### The short story of _tryLock_ and _ulnock_
 
+The **_tryLock()_** method performs the following _INSERT_ query on the _DLCK_ table.
 ```java
 final Optional<LockHandle> lockHandle = keyLock.tryLock("/invoice/pay/4587", 900);
 ```
-The **_tryLock()_** method performs the following _INSERT_ query on the _DLCK_ table.
 ```sql
 INSERT INTO DLCK (LCK_KEY, LCK_HNDL_ID, CREATED_TIME, EXPIRE_SEC) 
 SELECT '/invoice/pay/4587', 'da74f856-27d0-11ea-978f-2e728ce88125', '2019-12-31T06:40:12.623', '900' FROM DUAL 
