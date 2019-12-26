@@ -101,8 +101,8 @@ That being said, a KeyLock instance can be shared by many threads.
 What's _KeyLock_? _KeyLock_ is the main interface for dlock library.
 You get and release your named (named by key) locks.  
 
-The usage of JDBC implementation of the _KeyLock_ interface (_SimpleKeyLock_)  
-should not take part in the long running business transaction demarcated by the business method.
+The usage of JDBC implementation of the _KeyLock_ interface (_SimpleKeyLock_ class with the instance of _JDBCLockRepository_ injected as the repository property)  
+should not take part in the long running business transaction, demarcated by a business method.
 _KeyLock_ must work inside its own transaction, flushing and committing internal SQL instructions
 immediately once _tryLock()_ or _unlock()_ is called.   
 
