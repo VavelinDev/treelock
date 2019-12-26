@@ -8,10 +8,7 @@ plugins {
     id 'maven'
     id 'maven-publish'
     id 'jacoco'
-    id 'net.researchgate.release' version '2.6.0'
 }
-
-project.version = '1.0.0-SNAPSHOT'
 
 test {
     useJUnitPlatform()

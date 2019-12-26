@@ -9,10 +9,7 @@ plugins {
     id 'maven-publish'
     id 'jacoco'
     id 'me.champeau.gradle.jmh' version '0.5.0'
-    id 'net.researchgate.release' version '2.6.0'
 }
-
-project.version = '1.0.0-SNAPSHOT'
 
 // Enable Oracle tests (for unit tests and jmh)
 if (project.hasProperty("oracleUser")) {
