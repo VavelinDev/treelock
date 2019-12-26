@@ -8,7 +8,8 @@ plugins {
     id 'maven'
     id 'maven-publish'
     id 'jacoco'
-    id 'me.champeau.gradle.jmh' version '0.5.0-rc-2'
+    id 'me.champeau.gradle.jmh' version '0.5.0'
+    id 'net.researchgate.release' version '2.6.0'
 }
 
 project.version = '1.0-SNAPSHOT'

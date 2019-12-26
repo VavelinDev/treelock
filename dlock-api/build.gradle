@@ -7,6 +7,7 @@ plugins {
     id 'java-library'
     id 'maven'
     id 'maven-publish'
+    id 'net.researchgate.release' version '2.6.0'
 }
 
 project.version = '1.0-SNAPSHOT'
