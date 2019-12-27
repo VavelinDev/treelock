@@ -9,7 +9,7 @@ jobs:
     steps:
       - checkout
       - run: chmod +x ./gradlew
-      - run: ./gradlew build
+      - run: ./gradlew build codeCoverageReport
       - codecov/upload:
           file: /**/test.exec
 

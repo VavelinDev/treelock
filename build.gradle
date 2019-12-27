@@ -55,6 +55,7 @@ subprojects {
         reportsDir = file("$buildDir/jacoco")
     }
 
+/*
     jacocoTestReport {
         reports {
             xml.enabled false
@@ -62,6 +63,7 @@ subprojects {
             html.destination file("$buildDir/jacoco-report")
         }
     }
+*/
 
     jacocoTestCoverageVerification {
         violationRules {
@@ -84,5 +86,24 @@ subprojects {
             }
         }
     }
+}
+
+task codeCoverageReport(type: JacocoReport) {
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+
+    subprojects.each {
+        sourceSets it.sourceSets.main
+    }
+
+    reports {
+        xml.enabled true
+        xml.destination file("$buildDir/reports/jacoco/report.xml")
+        html.enabled false
+        csv.enabled false
+    }
+}
+
+codeCoverageReport.dependsOn {
+    subprojects*.test
 }
 
