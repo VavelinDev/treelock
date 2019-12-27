@@ -22,6 +22,7 @@ subprojects {
 
     apply plugin: "kotlin"
     apply plugin: "groovy"
+    apply plugin: "jacoco"
 
     project.group = 'com.dlock'
 
@@ -58,7 +59,7 @@ subprojects {
         reports {
             xml.enabled false
             csv.enabled false
-            html.destination file("${buildDir}/jacoco-report")
+            html.destination file("$buildDir/jacoco-report")
         }
     }
 
