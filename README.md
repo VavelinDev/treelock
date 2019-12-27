@@ -108,9 +108,6 @@ should not take part in the long running business transaction, demarcated by a b
 _KeyLock_ must work inside its own transaction, flushing and committing internal SQL instructions
 immediately once _tryLock()_ or _unlock()_ is called.   
 
-_P.S. I don't mind using zookeeper, hazelcast and other great frameworks for distributed locking. 
-However, you can simply make use of your current infrastructure for the sake of simplicity._
-
 ## Yet another usage example
 
 One of the good use cases for **dlock** is synchronizing schedules which run concurrently on all your nodes.
