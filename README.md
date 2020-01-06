@@ -7,7 +7,7 @@
 
 ## How to use it
 
-Get a distributed lock using **auto-closable API**
+Get a distributed lock using **autocloseable API**
 ```java
 try (ClosableKeyLockProvider.ClosableLockHandle closableLockHandle = keyLockProvider.tryLock("/invoice/pay/4587", 900)) {
     // perform some business logic
