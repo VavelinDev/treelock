@@ -1,3 +1,3 @@
 # dlock API
 
-A minimal API od dlock.
+A minimal API of dlock.
