@@ -28,7 +28,7 @@ class JDBCKeyLockBuilder {
     private var lockTableName: String = DEFAULT_LOCK_TABLE_NAME
     private var lockHandleIdGenerator: LockHandleIdGenerator = LockHandleUUIDIdGenerator()
     private var lockExpirationPolicy: LockExpirationPolicy = LocalLockExpirationPolicy(DateTimeProvider)
-    private var lockDateTimeProvider: DateTimeProvider = DateTimeProvider.DefaultDateTimeProvider
+    private var lockDateTimeProvider: DateTimeProvider = DateTimeProvider
     private var createDatabase = false
 
     /**

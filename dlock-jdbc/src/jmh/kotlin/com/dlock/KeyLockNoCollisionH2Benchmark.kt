@@ -26,7 +26,7 @@ open class KeyLockNoCollisionH2Benchmark {
 
         @TearDown(Level.Trial)
         fun shutdown() {
-            Server.shutdownTcpServer("tcp://localhost:9079", "", true, true);
+            Server.shutdownTcpServer("tcp://localhost:9079", "", true, true)
         }
 
         @Setup(Level.Iteration)

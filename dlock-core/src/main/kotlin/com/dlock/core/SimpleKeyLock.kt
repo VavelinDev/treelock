@@ -19,7 +19,7 @@ import java.util.*
  *
  * @author Przemyslaw Malirz
  */
-class SimpleKeyLock(
+open class SimpleKeyLock(
         private val lockRepository: LockRepository,
         private val lockHandleIdGenerator: LockHandleIdGenerator,
         private val lockExpirationPolicy: LockExpirationPolicy,

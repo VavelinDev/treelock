@@ -6,9 +6,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 /**
@@ -25,16 +24,12 @@ class ClosableKeyLockProviderJavaTest {
 
         final ClosableKeyLockProvider keyLockProvider = new ClosableKeyLockProvider(keyLock);
 
-        LockHandle lockHandle;
+        final AtomicReference<LockHandle> lockHandle = new AtomicReference<>();
 
-        try (ClosableKeyLockProvider.ClosableLockHandle closableLockHandle = keyLockProvider.tryLock("a", 1)) {
-            lockHandle = closableLockHandle.getLockHandle().orElse(null);
-            assertNotNull(lockHandle);
-            assertEquals("xyz", lockHandle.getHandleId());
-        }
+        keyLockProvider.withLock("a", 1, lockHandle::set);
 
         verify(keyLock).tryLock("a", 1);
-        verify(keyLock).unlock(lockHandle);
+        verify(keyLock).unlock(lockHandle.get());
         verifyNoMoreInteractions(keyLock);
     }
 
@@ -44,10 +39,10 @@ class ClosableKeyLockProviderJavaTest {
         when(keyLock.tryLock("a", 1)).thenReturn(Optional.empty());
 
         final ClosableKeyLockProvider keyLockProvider = new ClosableKeyLockProvider(keyLock);
+        final AtomicReference<LockHandle> lockHandle = new AtomicReference<>();
+        keyLockProvider.withLock("a", 1, lockHandle::set);
 
-        try (ClosableKeyLockProvider.ClosableLockHandle closableLockHandle = keyLockProvider.tryLock("a", 1)) {
-            Assertions.assertFalse(closableLockHandle.getLockHandle().isPresent());
-        }
+        Assertions.assertNull(lockHandle.get());
 
         verify(keyLock).tryLock("a", 1);
         verifyNoMoreInteractions(keyLock);

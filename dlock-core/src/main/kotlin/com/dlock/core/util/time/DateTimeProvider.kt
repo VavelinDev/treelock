@@ -9,12 +9,13 @@ import java.time.LocalDateTime
  */
 interface DateTimeProvider {
 
-    companion object DefaultDateTimeProvider : DateTimeProvider
+    companion object Singleton : DateTimeProvider
 
     /**
      * Returns LocalDateTime.now(). It's not static so can be mocked / replaced by any NOW provider.
      * The hardest part with NOW in unit tests is it's always different ;)
      */
     fun now(): LocalDateTime = LocalDateTime.now()
+
 
 }
