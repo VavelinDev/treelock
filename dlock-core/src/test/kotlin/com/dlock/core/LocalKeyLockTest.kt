@@ -4,6 +4,7 @@ import com.dlock.core.expiration.LocalLockExpirationPolicy
 import com.dlock.core.handle.LockHandleUUIDIdGenerator
 import com.dlock.core.repository.LocalLockRepository
 import com.dlock.core.util.time.DateTimeProvider
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -55,7 +56,7 @@ internal class LocalKeyLockTest {
         val lock2 = localKeyLock.tryLock("a", 1000)
 
         assertTrue(lock1.isPresent)
-        assertTrue(lock2.isEmpty)
+        assertFalse(lock2.isPresent)
 
         localKeyLock.unlock(lock1.get())
 
