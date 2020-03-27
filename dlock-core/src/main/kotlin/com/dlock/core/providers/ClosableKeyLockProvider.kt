@@ -2,7 +2,7 @@ package com.dlock.core.providers
 
 import com.dlock.api.KeyLock
 import com.dlock.api.LockHandle
-import java.util.*
+import java.util.function.Consumer
 
 /**
  * Auto-closable {@link KeyLock} provider.
@@ -11,19 +11,30 @@ import java.util.*
  */
 class ClosableKeyLockProvider(private val keyLock: KeyLock) {
 
-    fun tryLock(lockKey: String, expirationSeconds: Long): ClosableLockHandle {
+    fun withLock(lockKey: String, expirationSeconds: Long, f: Consumer<LockHandle>) {
         val lock = keyLock.tryLock(lockKey, expirationSeconds)
-        return ClosableLockHandle(lock)
+        if (lock.isPresent) {
+            ClosableLockHandle(lock.get()).use {
+                f.accept(it.lockHandle)
+            }
+        }
+    }
+
+    fun withLock(lockKey: String, expirationSeconds: Long, f: (LockHandle) -> Unit) {
+        val lock = keyLock.tryLock(lockKey, expirationSeconds)
+        if (lock.isPresent) {
+            ClosableLockHandle(lock.get()).use {
+                f(it.lockHandle)
+            }
+        }
     }
 
     /**
      * Auto-closable {@link LockHandle}.
      */
-    inner class ClosableLockHandle(val lockHandle: Optional<LockHandle>) : AutoCloseable {
-       override fun close() {
-            if(lockHandle.isPresent) {
-                keyLock.unlock(lockHandle.get())
-            }
+    private inner class ClosableLockHandle(val lockHandle: LockHandle) : AutoCloseable {
+        override fun close() {
+            keyLock.unlock(lockHandle)
         }
     }
 

@@ -5,8 +5,8 @@ import com.dlock.jdbc.DatabaseType
 import com.dlock.jdbc.builder.JDBCKeyLockBuilder
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import org.openjdk.jmh.annotations.*
-import java.util.concurrent.TimeUnit
+import org.openjdk.jmh.annotations.Level
+import org.openjdk.jmh.annotations.Setup
 
 
 /**

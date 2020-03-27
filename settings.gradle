@@ -3,4 +3,4 @@ rootProject.name = 'dlock'
 include 'dlock-core'
 include 'dlock-api'
 include 'dlock-jdbc'
-
+include 'dlock-spring'
