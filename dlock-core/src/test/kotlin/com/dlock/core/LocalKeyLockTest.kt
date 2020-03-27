@@ -4,6 +4,7 @@ import com.dlock.core.expiration.LocalLockExpirationPolicy
 import com.dlock.core.handle.LockHandleUUIDIdGenerator
 import com.dlock.core.repository.LocalLockRepository
 import com.dlock.core.util.time.DateTimeProvider
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -53,32 +54,32 @@ internal class LocalKeyLockTest {
         val lock1 = localKeyLock.tryLock("a", 1000)
         val lock2 = localKeyLock.tryLock("a", 1000)
 
-        assert(lock1.isPresent)
-        assert(lock2.isEmpty)
+        assertTrue(lock1.isPresent)
+        assertTrue(lock2.isEmpty)
 
         localKeyLock.unlock(lock1.get())
 
         val lock3 = localKeyLock.tryLock("a", 1000)
-        assert(lock3.isPresent)
+        assertTrue(lock3.isPresent)
     }
 
     @Test
     fun tryLockWithExpiration() {
         val lock1 = localKeyLock.tryLock("b", 1)
-        assert(lock1.isPresent)
+        assertTrue(lock1.isPresent)
 
         dateTimeProvider.moveToTheFuture() // let's fast forward to the future
 
         // can be taken as the previous lock expired
         val lock2 = localKeyLock.tryLock("b", 1000)
-        assert(lock2.isPresent)
+        assertTrue(lock2.isPresent)
 
         dateTimeProvider.backToNow()
 
         localKeyLock.unlock(lock2.get())
 
         val lock3 = localKeyLock.tryLock("b", 1000)
-        assert(lock3.isPresent)
+        assertTrue(lock3.isPresent)
     }
 
 }

@@ -2,10 +2,9 @@ package com.dlock.core.providers
 
 import com.dlock.api.KeyLock
 import com.dlock.api.LockHandle
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 import java.util.*
 
@@ -27,7 +26,7 @@ internal class ClosableKeyLockProviderTest {
 
         keyLockProvider.withLock("a", 1) {
             lockHandle = it
-            Assertions.assertEquals("xyz", it.handleId)
+            assertEquals("xyz", it.handleId)
         }
 
         verify(keyLock).tryLock("a", 1)
