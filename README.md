@@ -5,16 +5,16 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/pmalirz/dlock/badge.svg)](https://snyk.io/test/github/pmalirz/dlock)
 [![codecov](https://codecov.io/gh/pmalirz/dlock/branch/master/graph/badge.svg)](https://codecov.io/gh/pmalirz/dlock)
 
-## How about
+## Declare a lock at the method level
 ```java
 @Lock(key = "/invoice/pay/{invoiceId}", expirationSeconds = 900L)
 public void payInvoice(@LockKeyParam("invoiceId") final Long invoiceId) {
     // do processing...
 }
 ```
-It is achievable with a new **dlock-spring** module.
+enabled by the **dlock-spring** module.
 
-## How to use it
+## Using dlock API
 
 Get a distributed lock using **autocloseable API**
 ```java
