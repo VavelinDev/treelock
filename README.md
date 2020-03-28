@@ -5,13 +5,23 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/pmalirz/dlock/badge.svg)](https://snyk.io/test/github/pmalirz/dlock)
 [![codecov](https://codecov.io/gh/pmalirz/dlock/branch/master/graph/badge.svg)](https://codecov.io/gh/pmalirz/dlock)
 
+## How about
+```java
+@Lock(key = "/invoice/pay/{invoiceId}", expirationSeconds = 900L)
+public void payInvoice(@LockKeyParam("invoiceId") final Long invoiceId) {
+    // do processing...
+}
+```
+It is achievable with a new **dlock-spring** module.
+
 ## How to use it
 
 Get a distributed lock using **autocloseable API**
 ```java
-try (ClosableKeyLockProvider.ClosableLockHandle closableLockHandle = keyLockProvider.tryLock("/invoice/pay/4587", 900)) {
-    // perform some business logic
-}
+final ClosableKeyLockProvider keyLockProvider = new ClosableKeyLockProvider(keyLock);
+keyLockProvider.withLock("/invoice/pay/4587", 900, lockHandle -> {
+    // do processing...
+});
 ```
 or in a standard way
 ```java
@@ -97,6 +107,8 @@ expiration policies, lock model, repository interfaces
 JDBC implementation of **dlock** backed by your central database.
 Can be adapted to any SQL-standard database.
 Also, has a few unit and jmh tests to test performance, thread-safety and consistency.
+* **dlock-spring**
+Support for spring framework. @Lock annotation allows to declare a distributed lock at the method level. 
 
 All **dlock** implementations must be thread-safe.
 That being said, a KeyLock instance can be shared by many threads.
