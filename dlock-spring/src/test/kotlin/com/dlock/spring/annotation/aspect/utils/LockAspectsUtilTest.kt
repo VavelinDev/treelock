@@ -61,10 +61,12 @@ internal class LockAspectsUtilTest {
         assertThat(parameters.size, equalTo(0))
     }
 
-    fun testMethodParams(@LockKeyParam("aParam") a: Int, @LockKeyParam("bParam") b: String) {}
+    @Suppress("UNUSED_PARAMETER")
+    private fun testMethodParams(@LockKeyParam("aParam") a: Int, @LockKeyParam("bParam") b: String) {}
 
-    fun testMethodPartParams(@LockKeyParam("aParam") a: Int, b: String) {}
+    @Suppress("UNUSED_PARAMETER")
+    private fun testMethodPartParams(@LockKeyParam("aParam") a: Int, b: String) {}
 
-    fun testMethodNoParams() {}
+    private fun testMethodNoParams() {}
 
 }
