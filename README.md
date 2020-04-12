@@ -5,16 +5,19 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/pmalirz/dlock/badge.svg)](https://snyk.io/test/github/pmalirz/dlock)
 [![codecov](https://codecov.io/gh/pmalirz/dlock/branch/master/graph/badge.svg)](https://codecov.io/gh/pmalirz/dlock)
 
-## Declare a lock at the method level
+## Declarative
+You can enable distributed lock mechanism by adding the _@Lock_  annotation at the method level:
 ```java
 @Lock(key = "/invoice/pay/{invoiceId}", expirationSeconds = 900L)
 public void payInvoice(@LockKeyParam("invoiceId") final Long invoiceId) {
     // do processing...
 }
 ```
-enabled by the **dlock-spring** module.
+The **dlock-spring** module enables this feature.
 
 ## Using dlock API
+Declarative style depicted above is  the way to go for guarding the critical parts of your application, usually enclosed in methods.
+Nevertheless nothing can stop you from using pure dlock API, applying the lock to any given fragment of your code.
 
 Get a distributed lock using **autocloseable API**
 ```java
