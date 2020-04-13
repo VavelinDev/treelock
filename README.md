@@ -175,9 +175,12 @@ repositories {
 }
 
 dependencies {
+    // must have
     implementation 'dlock:dlock-api:2.0.1'
     implementation 'dlock:dlock-core:2.0.1'
+    // when you configure dlock with the database  
     implementation 'dlock:dlock-jdbc:2.0.1'
+    // when you need a spring support (enables @Lock annotation)
     implementation 'dlock:dlock-spring:2.0.1'
 }
 ```
