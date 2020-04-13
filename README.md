@@ -201,15 +201,23 @@ CREATE TABLE IF NOT EXISTS "@@tableName@@" (
 );
 CREATE UNIQUE INDEX IF NOT EXISTS "@@tableName@@_HNDL_UX" ON  "@@tableName@@" ("LCK_HNDL_ID");
 ```
+**LCK_KEY** column has to be unique!
 
-**LCK_KEY** column has to be unique!  
-
+The database structures could be also created by the _JDBCKeyLockBuilder_ (see the next point). 
+ 
 3) Create your _KeyLock_ instance 
 
 ```java
 @Bean
 public KeyLock createKeyLock() {
-    return JDBCKeyLockBuilder().dataSource(dataSource).databaseType(DatabaseType.H2).build();
+    return new JDBCKeyLockBuilder().dataSource(dataSource).databaseType(DatabaseType.H2).build();
+}
+```
+or, the same but with automatic initialization of the required database structures
+```java
+@Bean
+public KeyLock createKeyLock() {
+    return new JDBCKeyLockBuilder().dataSource(dataSource).databaseType(DatabaseType.H2).createDatabase(true).build();
 }
 ```
 
