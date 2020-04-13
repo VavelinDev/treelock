@@ -166,6 +166,22 @@ If the _unlock()_ execution fails the lock with a given name will be available a
 
 1) Download **dlock** library
 
+Configure your pom.xml or build.gradle
+```groovy
+repositories {
+    maven {
+        url  "https://dl.bintray.com/pmalirz/malitools" 
+    }
+}
+
+dependencies {
+    implementation 'dlock:dlock-api:2.0.1'
+    implementation 'dlock:dlock-core:2.0.1'
+    implementation 'dlock:dlock-jdbc:2.0.1'
+    implementation 'dlock:dlock-spring:2.0.1'
+}
+```
+
 2) Create **DLOCK** table in your database
 
 By default **dlock** uses DLOCK for the main table name. 
