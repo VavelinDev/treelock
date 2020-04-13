@@ -7,9 +7,10 @@ plugins {
     id 'java-library'
     id 'org.jetbrains.kotlin.jvm' version '1.3.70'
     id 'maven'
-    id 'maven-publish'
     id 'jacoco'
     id 'net.researchgate.release' version '2.6.0'
+    id 'maven-publish'
+    id "com.jfrog.bintray" version "1.8.5" apply false
 }
 
 repositories {
@@ -23,6 +24,9 @@ subprojects {
     apply plugin: "kotlin"
     apply plugin: "groovy"
     apply plugin: "jacoco"
+    apply plugin: 'maven-publish'
+    apply plugin: 'com.jfrog.bintray'
+    apply from: '../build-bintray.gradle'
 
     project.group = 'com.dlock'
 
@@ -97,6 +101,19 @@ subprojects {
 
         }
     }
+
+    jar {
+        manifest {
+            attributes(
+                    "Name": "${project.group} - ${project.name}",
+                    "Implementation-Title": project.name,
+                    "Implementation-Version": project.version,
+                    "Implementation-Vendor": "Przemyslaw Malirz")
+        }
+    }
+
+    afterReleaseBuild.dependsOn bintrayUpload
+
 }
 
 task codeCoverageReport(type: JacocoReport) {

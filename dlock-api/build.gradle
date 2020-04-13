@@ -7,12 +7,14 @@ plugins {
     id 'java-library'
     id 'maven'
     id 'maven-publish'
+    id 'net.researchgate.release'
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
+/*
 publishing {
     publications {
         maven(MavenPublication) {
@@ -21,4 +23,5 @@ publishing {
             from components.java
         }
     }
-}
+}*/
+

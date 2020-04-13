@@ -9,6 +9,7 @@ plugins {
     id 'maven-publish'
     id 'jacoco'
     id 'me.champeau.gradle.jmh' version '0.5.0'
+    id 'net.researchgate.release'
 }
 
 test {
@@ -27,7 +28,7 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.5.0"
 }
 
-publishing {
+/*publishing {
     publications {
         maven(MavenPublication) {
             groupId = project.group
@@ -35,7 +36,7 @@ publishing {
             from components.java
         }
     }
-}
+}*/
 
 jmh {
     fork = 2

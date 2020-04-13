@@ -9,6 +9,7 @@ plugins {
     id 'maven-publish'
     id 'jacoco'
     id 'me.champeau.gradle.jmh' version '0.5.0'
+    id 'net.researchgate.release'
 }
 
 // Enable Oracle tests (for unit tests and jmh)
@@ -33,7 +34,7 @@ dependencies {
     jmh "com.zaxxer:HikariCP:3.3.1"
 }
 
-publishing {
+/*publishing {
     publications {
         maven(MavenPublication) {
             groupId = project.group
@@ -41,7 +42,26 @@ publishing {
             from components.java
         }
     }
-}
+}*/
+
+/*jar {
+    manifest {
+        attributes(
+                "Name": "dlock-jdbc",
+                "Implementation-Title": "dlock-spring (with all dlock submodules: api, core, jdbc)",
+                "Implementation-Version": project.version,
+                "Implementation-Vendor": "Przemyslaw Malirz")
+    }
+}*/
+
+/*shadowJar {
+    archiveFileName  = "dlock-jdbc-all-${project.version}.jar"
+    dependencies {
+        exclude(dependency {
+            it.moduleGroup != 'com.dlock'
+        })
+    }
+}*/
 
 jmh {
     fork = 1

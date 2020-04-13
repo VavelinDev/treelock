@@ -8,7 +8,7 @@ plugins {
     id 'maven'
     id 'maven-publish'
     id 'jacoco'
-    id 'me.champeau.gradle.jmh' version '0.5.0'
+    id 'net.researchgate.release'
 }
 
 test {
@@ -27,40 +27,10 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.0"
     testImplementation "org.jetbrains.kotlin:kotlin-reflect"
 
-    implementation  group: 'org.springframework', name: 'spring-context', version: '5.2.3.RELEASE'
-    implementation  group: 'org.springframework', name: 'spring-aspects', version: '5.2.3.RELEASE'
+    implementation group: 'org.springframework', name: 'spring-context', version: '5.2.3.RELEASE'
+    implementation group: 'org.springframework', name: 'spring-aspects', version: '5.2.3.RELEASE'
 
-    testImplementation  group: 'org.springframework', name: 'spring-test', version: '5.2.3.RELEASE'
-
-    //testCompile group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.5'
-
-
+    testImplementation group: 'org.springframework', name: 'spring-test', version: '5.2.3.RELEASE'
 
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.6.0"
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = project.group
-            version = project.version
-            from components.java
-        }
-    }
-}
-
-jmh {
-    fork = 1
-    iterations = 1
-    jmhVersion = '1.21'
-    profilers = ['gc']
-    threads = 5
-    warmup = '1s'
-    warmupBatchSize = 1
-    warmupIterations = 1
-    jvmArgs = ['-Xms512m', '-Xmx1024m', '-Dlog4j.configurationFile=conf/log4j2.xml']
-}
-
-jmhJar {
-    exclude 'log4j2.xml'
 }
