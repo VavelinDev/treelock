@@ -43,7 +43,7 @@ internal class LocalKeyLockTest {
 
 
         localKeyLock = SimpleKeyLock(
-                LocalLockRepository(),
+                LocalLockRepository(dateTimeProvider),
                 LockHandleUUIDIdGenerator(),
                 LocalLockExpirationPolicy(dateTimeProvider),
                 dateTimeProvider

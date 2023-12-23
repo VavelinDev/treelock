@@ -1,7 +1,7 @@
 package com.dlock.core.expiration
 
+import com.dlock.core.model.ReadLockRecord
 import com.dlock.core.util.time.DateTimeProvider
-import java.time.LocalDateTime
 
 /**
  * Expires the lock when createdTime + expirationSeconds > NOW.
@@ -10,10 +10,10 @@ import java.time.LocalDateTime
  */
 class LocalLockExpirationPolicy(private val dataTimeProvider: DateTimeProvider) : LockExpirationPolicy {
 
-    override fun expired(createdTime: LocalDateTime, expirationSeconds: Long): Boolean {
+    override fun expired(readLockRecord: ReadLockRecord): Boolean {
         val now = dataTimeProvider.now()
 
-        return createdTime.plusSeconds(expirationSeconds).isBefore(now)
+        return readLockRecord.createdTime.plusSeconds(readLockRecord.expirationSeconds).isBefore(now)
     }
 
 }
