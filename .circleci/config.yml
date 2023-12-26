@@ -5,7 +5,7 @@ jobs:
   build:
     working_directory: ~/dlock
     docker:
-      - image: circleci/openjdk:8-jdk-browsers
+      - image: cimg/openjdk:8.0
     steps:
       - checkout
       - run: chmod +x ./gradlew
