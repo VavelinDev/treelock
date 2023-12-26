@@ -1,11 +1,5 @@
-/*
- * Przemyslaw Malirz
- *
- * dlock API - Distributed Lock
- */
 plugins {
     id 'java-library'
-    id 'maven'
     id 'maven-publish'
     id 'net.researchgate.release'
 }
