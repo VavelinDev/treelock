@@ -2,14 +2,24 @@ plugins {
     id 'java-library'
     id 'org.jetbrains.kotlin.jvm' version '1.9.20'
     id 'jacoco'
+    id 'jacoco-report-aggregation'
     id 'net.researchgate.release' version '3.0.2' apply false
     id 'maven-publish'
-    id "com.jfrog.bintray" version "1.8.5" apply false
 }
 
 repositories {
     mavenLocal()
     mavenCentral()
+}
+
+dependencies {
+    implementation project(':dlock-core')
+    implementation project(':dlock-jdbc')
+    implementation project(':dlock-spring')
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('testCodeCoverageReport', JacocoReport)
 }
 
 subprojects {
@@ -19,8 +29,6 @@ subprojects {
     apply plugin: "jacoco"
     apply plugin: 'maven-publish'
     apply plugin: 'net.researchgate.release'
-    apply plugin: 'com.jfrog.bintray'
-    apply from: '../build-bintray.gradle'
 
     project.group = 'com.dlock'
 
@@ -41,12 +49,11 @@ subprojects {
 
     jacoco {
         toolVersion = "0.8.11"
-        reportsDirectory = file("$buildDir/jacoco")
     }
 
     jacocoTestReport {
         reports {
-            html.destination = (file("$buildDir/jacoco-report"))
+            html.outputLocation = layout.buildDirectory.dir("jacoco-html")
         }
     }
 
@@ -95,26 +102,4 @@ subprojects {
         }
     }
 
-    afterReleaseBuild.dependsOn bintrayUpload
-
 }
-
-tasks.register('codeCoverageReport', JacocoReport) {
-    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
-
-    subprojects.each {
-        sourceSets it.sourceSets.main
-    }
-
-    reports {
-        xml.required = true
-        xml.destination = file("$buildDir/reports/jacoco/report.xml")
-        html.required = true
-        csv.required = false
-    }
-}
-
-codeCoverageReport.dependsOn {
-    subprojects*.test
-}
-

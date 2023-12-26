@@ -9,7 +9,7 @@ test {
     useJUnitPlatform()
 }
 
-def springVersion = '5.2.21.RELEASE'
+def springVersion = '5.3.31'
 
 dependencies {
     api project(":dlock-core")
