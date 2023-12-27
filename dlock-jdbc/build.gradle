@@ -12,6 +12,10 @@ if (project.hasProperty("oracleUser")) {
     apply from: 'oracle-build.gradle'
 }
 
+test {
+    useJUnitPlatform()
+}
+
 dependencies {
     api project(":dlock-core")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
