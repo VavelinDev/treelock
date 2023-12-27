@@ -33,5 +33,5 @@ jobs:
     - uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: /**/jacocoTestReport.xml
+        files: /build/reports/jacoco/testCodeCoverageReport/jacocoTestReport.xml
         verbose: true

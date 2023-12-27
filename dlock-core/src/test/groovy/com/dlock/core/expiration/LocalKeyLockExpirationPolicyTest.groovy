@@ -14,21 +14,19 @@ import java.time.LocalDateTime
  */
 class LocalKeyLockExpirationPolicyTest extends Specification {
 
+    private static final NOW = LocalDateTime.parse("2019-01-01T12:00:00")
+
     private LocalLockExpirationPolicy expirationPolicy
-    private DateTimeProvider dateTimeProvider
 
     def setup() {
-        dateTimeProvider = GroovyMock(DateTimeProvider.class) {
-            now() >> LocalDateTime.parse("2019-01-01T12:00:00")
-        }
-        expirationPolicy = new LocalLockExpirationPolicy(dateTimeProvider)
+        expirationPolicy = new LocalLockExpirationPolicy()
     }
 
     @Unroll("Test lock expiration: #createTimeString, #expirationSeconds, #expired")
     def "Test lock expiration"(String createTimeString, Long expirationSeconds, boolean expired) {
         given:
         def createTime = LocalDateTime.parse(createTimeString)
-        def givenLock = new ReadLockRecord("1", "1", createTime, expirationSeconds, dateTimeProvider.now())
+        def givenLock = new ReadLockRecord("1", "1", createTime, expirationSeconds, NOW)
 
         when:
         def actualExpired = expirationPolicy.expired(givenLock)
