@@ -2,7 +2,6 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'jacoco'
-    id 'net.researchgate.release'
 }
 
 test {

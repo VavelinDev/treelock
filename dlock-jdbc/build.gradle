@@ -2,8 +2,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'jacoco'
-    id 'me.champeau.gradle.jmh' version '0.5.0'
-    id 'net.researchgate.release'
+    id 'me.champeau.jmh' version '0.7.2'
 }
 
 // Enable Oracle tests (for unit tests and jmh)
@@ -30,6 +29,10 @@ dependencies {
 
     jmh 'com.h2database:h2:2.2.220'
     jmh "com.zaxxer:HikariCP:3.3.1"
+}
+
+configurations.jmh {
+    canBeResolved = true
 }
 
 /*publishing {

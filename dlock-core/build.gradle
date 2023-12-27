@@ -2,8 +2,8 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'jacoco'
-    id 'me.champeau.gradle.jmh' version '0.5.0'
-    id 'net.researchgate.release'
+    id 'me.champeau.jmh' version '0.7.2'
+//    id 'net.researchgate.release'
 }
 
 test {

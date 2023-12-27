@@ -3,7 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.9.20'
     id 'jacoco'
     id 'jacoco-report-aggregation'
-    id 'net.researchgate.release' version '3.0.2' apply false
     id 'maven-publish'
 }
 
@@ -36,7 +35,6 @@ subprojects {
     apply plugin: "groovy"
     apply plugin: "jacoco"
     apply plugin: 'maven-publish'
-    apply plugin: 'net.researchgate.release'
 
     project.group = 'com.dlock'
 
