@@ -13,9 +13,17 @@ repositories {
 }
 
 dependencies {
-    implementation project(':dlock-core')
-    implementation project(':dlock-jdbc')
-    implementation project(':dlock-spring')
+    jacocoAggregation project(':dlock-core')
+    jacocoAggregation project(':dlock-jdbc')
+    jacocoAggregation project(':dlock-spring')
+}
+
+reporting {
+    reports {
+        testCodeCoverageReport(JacocoCoverageReport) {
+            testType = TestSuiteType.UNIT_TEST
+        }
+    }
 }
 
 tasks.named('check') {
