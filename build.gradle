@@ -61,6 +61,7 @@ subprojects {
 
     jacocoTestReport {
         reports {
+            xml.required = true
             html.outputLocation = layout.buildDirectory.dir("jacoco-html")
         }
     }
