@@ -1,4 +1,4 @@
-<img src="https://github.com/pmalirz/treelock/blob/master/doc/images/treelock-logo.png">
+<img src="https://github.com/VavelinDev/treelock/blob/main/doc/images/treelock-logo.png?raw=true">
 
 # 🎋 TreeLock 
 
@@ -8,9 +8,9 @@ Synchronization is effectively carried out via this
 centralized repository which, in this case, is the database.
 The library is similar to the ShedLock library. There are some differences tough.
 
-![Build](https://github.com/pmalirz/treelock/actions/workflows/gradle.yml/badge.svg)
-[![Known Vulnerabilities](https://snyk.io/test/github/pmalirz/treelock/badge.svg)](https://snyk.io/test/github/pmalirz/dlock)
-[![codecov](https://codecov.io/gh/pmalirz/treelock/branch/master/graph/badge.svg)](https://codecov.io/gh/pmalirz/dlock)
+![Build](https://github.com/VavelinDev/treelock/actions/workflows/gradle.yml/badge.svg)
+[![Known Vulnerabilities](https://snyk.io/test/github/VavelinDev/treelock/badge.svg)](https://snyk.io/test/github/pmalirz/dlock)
+[![codecov](https://codecov.io/gh/pmalirz/treelock/branch/master/graph/badge.svg)](https://codecov.io/gh/VavelinDev/treelock)
 
 ## Usage 
 
