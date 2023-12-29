@@ -1,6 +1,6 @@
-rootProject.name = 'dlock'
+rootProject.name = 'treelock'
 
-include 'dlock-core'
-include 'dlock-api'
-include 'dlock-jdbc'
-include 'dlock-spring'
+include 'treelock-core'
+include 'treelock-api'
+include 'treelock-jdbc'
+include 'treelock-spring'

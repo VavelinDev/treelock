@@ -1,0 +1,50 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'jacoco'
+    id 'me.champeau.jmh' version '0.7.2'
+//    id 'net.researchgate.release'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+    api project(":treelock-api")
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    testImplementation "org.apache.groovy:groovy-all:4.0.17"
+    testImplementation "org.spockframework:spock-core:2.4-M1-groovy-4.0"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.10.1"
+    testImplementation "net.bytebuddy:byte-buddy:1.14.11"
+    testImplementation 'org.mockito:mockito-core:4.11.0'
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.10.1"
+}
+
+/*publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = project.group
+            version = project.version
+            from components.java
+        }
+    }
+}*/
+
+jmh {
+    fork = 2
+    iterations = 2
+    jmhVersion = '1.37'
+    profilers = ['gc']
+    threads = 10
+    warmup = '1s'
+    warmupBatchSize = 1
+    warmupIterations = 1
+    includeTests = false
+    jvmArgs = ['-Xms512m', '-Xmx1024m', '-Dlog4j.configurationFile=conf/log4j2.xml']
+}
+
+jmhJar {
+    exclude 'log4j2.xml'
+}

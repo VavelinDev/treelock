@@ -1,0 +1,63 @@
+package dev.vavelin.treelock
+
+import dev.vavelin.treelock.api.KeyLock
+import dev.vavelin.treelock.jdbc.DatabaseType
+import dev.vavelin.treelock.jdbc.builder.JDBCKeyLockBuilder
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
+import org.h2.tools.Server
+import org.openjdk.jmh.annotations.*
+import java.util.*
+import java.util.concurrent.TimeUnit
+
+open class KeyLockAndReleaseNoCollisionH2Benchmark {
+
+    @State(Scope.Benchmark)
+    open class ExecutionPlan {
+
+        lateinit var keyLock: KeyLock
+        lateinit var h2Server: Server
+
+        @Setup(Level.Trial)
+        fun start() {
+            h2Server = Server.createTcpServer("-ifNotExists", "-tcp", "-tcpAllowOthers", "-tcpPort", "9079")
+            h2Server.start()
+        }
+
+        @TearDown(Level.Trial)
+        fun shutdown() {
+            Server.shutdownTcpServer("tcp://localhost:9079", "", true, true)
+        }
+
+        @Setup(Level.Iteration)
+        fun setUp() {
+            val config = HikariConfig()
+
+            config.jdbcUrl = "jdbc:h2:tcp://localhost:9079/~/treelockjmh"
+            config.username = "sa"
+            config.password = ""
+            config.isAutoCommit = true
+            config.addDataSourceProperty("maximumPoolSize", "1000")
+            val dataSource = HikariDataSource(config)
+
+            keyLock = JDBCKeyLockBuilder().dataSource(dataSource)
+                    .databaseType(DatabaseType.H2)
+                    .createDatabase(true).build()
+
+            (1..100000).forEach {
+                keyLock.tryLock(UUID.randomUUID().toString(), 1)
+            }
+
+        }
+
+    }
+
+    @Benchmark
+    @BenchmarkMode(Mode.Throughput)
+    @OutputTimeUnit(TimeUnit.MILLISECONDS)
+    fun tryAndReleaseLockNoCollision(executionPlan: ExecutionPlan) {
+        val lockHandle = executionPlan.keyLock.tryLock(UUID.randomUUID().toString(), 1)
+        executionPlan.keyLock.unlock(lockHandle.get())
+    }
+
+}

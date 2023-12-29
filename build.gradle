@@ -11,10 +11,12 @@ repositories {
     mavenCentral()
 }
 
+def projectVersion = project.version
+
 dependencies {
-    jacocoAggregation project(':dlock-core')
-    jacocoAggregation project(':dlock-jdbc')
-    jacocoAggregation project(':dlock-spring')
+    jacocoAggregation project(':treelock-core')
+    jacocoAggregation project(':treelock-jdbc')
+    jacocoAggregation project(':treelock-spring')
 }
 
 reporting {
@@ -36,7 +38,13 @@ subprojects {
     apply plugin: "jacoco"
     apply plugin: 'maven-publish'
 
-    project.group = 'com.dlock'
+    project.group = 'dev.vavelin.treelock'
+    project.version = projectVersion
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 
     dependencies {
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
@@ -104,8 +112,8 @@ subprojects {
             attributes(
                     "Name": "${project.group} - ${project.name}",
                     "Implementation-Title": project.name,
-                    "Implementation-Version": project.version,
-                    "Implementation-Vendor": "Przemyslaw Malirz")
+                    "Implementation-Version": projectVersion,
+                    "Implementation-Vendor": "Przemyslaw Malirz (pmalirz) - Vavelin.dev")
         }
     }
 
