@@ -9,7 +9,7 @@ centralized repository which, in this case, is the database.
 The library is similar to the ShedLock library. There are some differences tough.
 
 ![Build](https://github.com/VavelinDev/treelock/actions/workflows/gradle.yml/badge.svg)
-[![Known Vulnerabilities](https://snyk.io/test/github/VavelinDev/treelock/badge.svg)](https://snyk.io/test/github/pmalirz/dlock)
+[![Known Vulnerabilities](https://snyk.io/test/github/VavelinDev/treelock/badge.svg)](https://snyk.io/test/github/VavelinDev/treelock)
 [![codecov](https://codecov.io/gh/VavelinDev/treelock/branch/main/graph/badge.svg)](https://codecov.io/gh/VavelinDev/treelock)
 
 ## Usage 
